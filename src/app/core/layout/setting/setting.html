@@ -1,0 +1,39 @@
+<div class="setting-panel" role="dialog" aria-label="Application Settings" aria-modal="true">
+  <div class="panel-header">
+    <h5 class="title m-0">Settings</h5>
+    <button class="icon-btn close" (click)="closeSidebar()" aria-label="Close settings"><i class="bi bi-x-lg"></i></button>
+  </div>
+
+  <div class="panel-body">
+    <section class="theme-section">
+      <p class="section-label">Theme</p>
+  <div class="color-options" aria-label="Theme selection">
+        @for (theme of ['blue','light','pink','orange','green','gray']; track theme) {
+    <button class="color-swatch {{theme}}"
+      type="button"
+      [attr.aria-pressed]="currentTheme === theme"
+      [class.active]="currentTheme === theme"
+      (click)="setColor(theme)"
+      [attr.title]="theme + ' theme'"
+      [attr.aria-label]="theme + ' theme'"
+      [attr.data-theme]="theme">
+            <span class="visually-hidden">{{ theme }} theme</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="misc-section">
+      <p class="section-label">Preferences</p>
+      <div class="pref-list" role="list" aria-label="Preference items">
+        @for (item of prefItems; track item) {
+          <div class="pref-item" role="listitem">{{ item }}</div>
+        }
+      </div>
+    </section>
+  </div>
+
+  <div class="panel-footer">
+    <button class="btn-soft secondary" (click)="closeSidebar()">Close</button>
+  </div>
+</div>

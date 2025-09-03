@@ -1,9 +1,13 @@
 
-<app-navbar class="navbar-container"></app-navbar>
+<app-navbar class="navbar-container" (toggleSettings)="toggleSettingSidebar()"></app-navbar>
 <app-sidebar></app-sidebar>
 <div class="content-area">
 	<app-tab-bar></app-tab-bar>
-		<!-- Router outlet temporarily disabled to avoid duplicate rendering with tab system -->
-		<!-- <router-outlet /> -->
+
+  @if (showSettingSidebar) {
+    <div class="settings-overlay" (click)="toggleSettingSidebar()"></div>
+    <app-setting [currentTheme]="currentTheme" (themeChange)="setColor($event)" (closeSetting)="toggleSettingSidebar()"></app-setting>
+  }
+
 </div>
 
