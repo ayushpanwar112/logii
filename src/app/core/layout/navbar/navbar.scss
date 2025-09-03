@@ -1,0 +1,481 @@
+// Enhanced Navbar SCSS - Angular 19 Modern Design
+@use 'sass:color';
+
+// Enhanced Variables
+$navbar-height: 64px;
+$navbar-bg: #ffffff;
+$navbar-border: #e5e7eb;
+$primary-blue: #3b82f6;
+$text-primary: #1f2937;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+$hover-bg: #f3f4f6;
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$border-radius: 8px;
+$border-radius-lg: 12px;
+
+// Mixins
+
+
+// Enhanced Navbar Container
+.nav-container {
+  position: relative;
+  width: 100%;
+  margin-left:0px ;
+  z-index: 100;
+
+  .profile-container {
+    position: absolute;
+    right: 24px;
+    top: calc($navbar-height + 8px);
+    z-index: 1000;
+  }
+}
+
+// Modern Navbar Styling
+.custom-navbar {
+  height: $navbar-height;
+  background: $navbar-bg;
+  border-bottom: 1px solid $navbar-border;
+  box-shadow: $shadow-sm;
+  padding: 0 1.5rem;
+  
+ 
+
+  .container-fluid {
+    height: 100%;
+    max-width: none;
+  }
+
+  .welcome-text {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: $text-primary;
+    letter-spacing: -0.01em;
+    margin-right: 1.5rem;
+  }
+
+  .navbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .profile-icon {
+      font-size: 2rem;
+      color: $text-secondary;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: $border-radius;
+      transition: $transition;
+      position: relative;
+
+
+
+      &:hover {
+        color: $primary-blue;
+        background-color: rgba($primary-blue, 0.08);
+      }
+
+      &:focus {
+        outline: 2px solid rgba($primary-blue, 0.2);
+        outline-offset: 2px;
+      }
+
+      // Online indicator dot
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        border: 2px solid $navbar-bg;
+        box-shadow: $shadow-sm;
+      }
+    }
+
+    .icon-btn {
+      font-size: 1.25rem;
+      color: $text-secondary;
+      cursor: pointer;
+      padding: 0.6rem;
+      border-radius: $border-radius;
+      transition: $transition;
+      position: relative;
+
+      
+
+      &:hover {
+        color: $primary-blue;
+        background-color: rgba($primary-blue, 0.08);
+      }
+
+      &:focus {
+        outline: 2px solid rgba($primary-blue, 0.2);
+        outline-offset: 2px;
+        color: $primary-blue;
+      }
+
+      // Tooltip enhancement
+      &[title] {
+        &::before {
+          content: attr(title);
+          position: absolute;
+          bottom: -40px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: $text-primary;
+          color: white;
+          padding: 0.5rem 0.75rem;
+          border-radius: 6px;
+          font-size: 0.75rem;
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: $transition;
+          box-shadow: $shadow-md;
+          z-index: 1000;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -32px;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 4px solid transparent;
+          border-bottom-color: $text-primary;
+          opacity: 0;
+          transition: $transition;
+        }
+
+        &:hover::before,
+        &:hover::after {
+          opacity: 1;
+        }
+      }
+
+      // Notification badges for specific icons
+      &.has-notification::after {
+        content: '';
+        position: absolute;
+        top: 0.4rem;
+        right: 0.4rem;
+        width: 6px;
+        height: 6px;
+        background: #ef4444;
+        border-radius: 50%;
+        border: 1px solid $navbar-bg;
+      }
+    }
+  }
+}
+
+// Enhanced Profile Modal
+.modal {
+  &.show {
+    background: rgba(0, 0, 0, 0.1);
+    
+  }
+}
+
+.custom-modal-content {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  min-width: 320px;
+  max-width: 380px;
+  margin: 0;
+
+  .modal-body {
+    padding: 0;
+  }
+
+  // Enhanced profile card design
+  .profile-card-wrapper {
+    position: relative;
+    width: 100%;
+
+    .profile-avatar {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      top: 0;
+      width: 96px;
+      height: 96px;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      border-radius: 50%;
+      border: 4px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      box-shadow: $shadow-lg;
+      transition: $transition;
+
+      &:hover {
+        transform: translateX(-50%) translateY(-50%) scale(1.05);
+      }
+
+      i {
+        font-size: 3rem;
+        color: $text-secondary;
+        transition: $transition;
+      }
+    }
+
+    .profile-card {
+      margin-top: 48px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: $shadow-lg;
+      padding: 60px 24px 24px 24px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+
+      // User info section
+      .user-info {
+        margin-bottom: 1.5rem;
+
+        .info-row {
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid #f3f4f6;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .info-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba($primary-blue, 0.1);
+            border-radius: $border-radius;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: $primary-blue;
+          }
+
+          .info-content {
+            flex: 1;
+
+            .info-label {
+              font-size: 0.75rem;
+              color: $text-muted;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              margin-bottom: 0.25rem;
+            }
+
+            .info-value {
+              font-size: 0.95rem;
+              color: $text-primary;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+
+      // Enhanced testing box
+      .testing-box {
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+        border-radius: $border-radius-lg;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(147, 51, 234, 0.1);
+
+        .testing-title {
+          font-weight: 700;
+          color: #7c3aed;
+          font-size: 0.9rem;
+          text-align: center;
+          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .testing-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          font-size: 0.85rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          .testing-label {
+            color: $text-secondary;
+            font-weight: 600;
+          }
+
+          .testing-value {
+            color: $text-primary;
+            font-weight: 500;
+          }
+        }
+      }
+
+      // Enhanced buttons
+      .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+
+        .btn {
+          flex: 1;
+          font-weight: 600;
+          font-size: 0.9rem;
+          padding: 0.75rem 1rem;
+          border-radius: $border-radius;
+          border: none;
+          transition: $transition;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          &.btn-switch {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            color: #4338ca;
+            border: 1px solid rgba(67, 56, 202, 0.2);
+
+            &:hover {
+              background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+              transform: translateY(-1px);
+              box-shadow: $shadow-md;
+            }
+          }
+
+          &.btn-logout {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+
+            &:hover {
+              background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+              transform: translateY(-1px);
+              box-shadow: $shadow-md;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive enhancements
+@media (max-width: 768px) {
+  .custom-navbar {
+    padding: 0 1rem;
+
+    .welcome-text {
+      display: none;
+    }
+
+    .navbar-icons {
+      gap: 0.5rem;
+
+      .icon-btn,
+      .profile-icon {
+        padding: 0.5rem;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .nav-container .profile-container {
+    right: 16px;
+  }
+
+  .custom-modal-content {
+    min-width: 280px;
+    margin: 0 1rem;
+
+    .profile-card {
+      padding: 50px 20px 20px 20px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+
+      i {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-modal-content {
+    min-width: calc(100vw - 2rem);
+
+    .action-buttons {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .custom-navbar {
+    background: #353535;
+    border-color: #374151;
+
+    .welcome-text {
+      color: #f9fafb;
+    }
+
+    .navbar-icons {
+      .profile-icon,
+      .icon-btn {
+        color: #d1d5db;
+
+        &:hover {
+          color: #60a5fa;
+          background-color: rgba(96, 165, 250, 0.1);
+        }
+      }
+    }
+  }
+
+  .custom-modal-content .profile-card {
+    background: #1f2937;
+    color: #f9fafb;
+
+    .user-info .info-row {
+      border-color: #374151;
+
+      .info-content {
+        .info-value {
+          color: #f9fafb;
+        }
+      }
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-modal-content {
+  animation: slideInDown 0.3s ease-out;
+}

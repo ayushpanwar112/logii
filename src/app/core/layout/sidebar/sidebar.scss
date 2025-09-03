@@ -1,0 +1,451 @@
+// component.scss - Angular 19 SCSS Styling
+@use 'sass:color';
+
+// SCSS Variables - Optimized sizes
+$sidebar-width: 56px;
+$sidebar-open-width: 240px;
+$primary-dark: #303030;
+$secondary-dark: #222324;
+$tertiary-dark: #1658b4;
+$accent-color: #3b82f6;
+$hover-color: #60a5fa;
+$text-primary: #f8fafc;
+$text-secondary: #e2e8f0;
+$text-muted: #94a3b8;
+$border-color: #475569;
+$success-color: #22c55e;
+$warning-color: #f59e0b;
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+// Main layout - Cleaner gradient
+.main-layout {
+  height: 100vh;
+  position: relative;
+ z-index: 9999; 
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+}
+
+// Icon Sidebar Container - Compact design
+.sidebar-container {
+  width: $sidebar-width;
+  background: $primary-dark;
+  height: 100%;
+  align-items: center;
+  border-right: 1px solid $border-color;
+  box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
+  transition: $transition;
+  padding: 0 0.5rem;
+  p {
+    font-size: 10px;
+  }
+  &.expanded {
+    width:80px;
+    align-items: flex-start; // Align icons + text to the left
+    
+    .icon-btn{
+      font-size: 16px;
+    }
+    .sidebar-open{
+      position: fixed;
+      left: 30px ;
+    }
+  }
+
+  .icon-btn {
+    font-size: 1.2rem;
+    color: $text-muted;
+    cursor: pointer;
+    padding: 0.6rem;
+    margin: 0.3rem 0;
+    border-radius: 8px;
+    transition: $transition;
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    i {
+      width: 24px;
+      text-align: center;
+    }
+
+    span {
+      margin-left: 0.5rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: $transition;
+    }
+
+    // Show title text when expanded
+    .sidebar-container.expanded & span {
+      opacity: 1;
+    }
+
+    &:hover {
+      color: $text-primary;
+      background: rgba($accent-color, 0.15);
+      transform: translateX(2px);
+    }
+
+    &.active {
+      color: $accent-color;
+      background: rgba($accent-color, 0.1);
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 20px;
+        background: $accent-color;
+        border-radius: 2px 0 0 2px;
+      }
+    }
+  }
+}
+
+
+// Slide-out Sidebar - Refined design
+.sidebar-open {
+  width: $sidebar-open-width;
+  height: 100%;
+  top: 0;
+  left: $sidebar-width;
+  background: $secondary-dark;
+  border-right: 1px solid $border-color;
+ 
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: $transition;
+
+   &.shifted {
+    left: 80px; // expanded sidebar width
+  }
+
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  // Refined scrollbar
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-color;
+    border-radius: 2px;
+    
+    &:hover {
+      background: $accent-color;
+    }
+  }
+}
+
+// Sidebar Header - Compact
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid $border-color;
+  background: rgba(235, 36, 36, 0.02);
+
+  h4 {
+    color: $text-primary;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+  }
+}
+
+// Sidebar Content - Optimized spacing
+.sidebar-content {
+  padding: 0.75rem;
+
+  .drop {
+    background-color: #1658b4;
+    padding: 4px 8px;
+    border-radius: 100%;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      background-color: #4d187e; // Darker shade for hover
+      transform: scale(1.1);     // Slight zoom effect
+    }
+
+    i {
+      transition: transform 0.3s ease;
+    }
+
+    &:hover i {
+      transform: rotate(180deg); // Optional: Rotate icon on hover
+    }
+  }
+}
+
+
+.section-item {
+  margin-bottom: 0.5rem;
+}
+
+// Section Header - Smaller, cleaner
+.section-header {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: $transition;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    background: rgba($accent-color, 0.08);
+    border-color: rgba($accent-color, 0.2);
+  }
+
+  &.expanded {
+    background: rgba($accent-color, 0.12);
+    border-color: rgba($accent-color, 0.3);
+  }
+
+  .section-title {
+    color: $text-primary;
+    font-weight: 500;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .section-chevron {
+    color: $text-muted;
+    transition: $transition;
+    font-size: 0.75rem;
+
+    &.rotated {
+      transform: rotate(90deg);
+      color: $accent-color;
+    }
+  }
+}
+
+// Refined Sub-items with elegant connecting lines
+.sub-items {
+  margin-top: 0.4rem;
+  margin-left: 0.75rem;
+  position: relative;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: $transition;
+
+  &.expanded {
+    opacity: 1;
+    max-height: 300px;
+  }
+
+  // Elegant vertical line
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, 
+      rgba($accent-color, 0.4) 0%, 
+      rgba($accent-color, 0.2) 70%, 
+      transparent 100%);
+  }
+
+  .sub-item {
+    position: relative;
+    padding: 0.4rem 0 0.4rem 1.5rem;
+    color: $text-muted;
+    font-size: 0.8rem;
+    transition: $transition;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0.15rem 0;
+    font-weight: 400;
+
+    // Small elegant node
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0.44rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: $text-muted;
+      border-radius: 50%;
+      transition: $transition;
+      border: 1px solid $secondary-dark;
+    }
+
+    &:hover {
+      color: $text-secondary;
+      background: rgba($accent-color, 0.06);
+      padding-left: 1.6rem;
+
+      &::before {
+        background: $accent-color;
+        width: 6px;
+        height: 6px;
+        border-color: rgba($accent-color, 0.3);
+        box-shadow: 0 0 0 2px rgba($accent-color, 0.15);
+      }
+    }
+
+    // Refined active state
+    &.active {
+      color: $accent-color;
+      background: rgba($accent-color, 0.1);
+      font-weight: 500;
+
+      &::before {
+        background: $accent-color;
+        width: 6px;
+        height: 6px;
+        box-shadow: 0 0 0 2px rgba($accent-color, 0.2);
+        border-color: $accent-color;
+      }
+
+      // Active indicator line
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2px;
+        height: 12px;
+        background: $accent-color;
+        border-radius: 1px;
+      }
+    }
+  }
+}
+
+// Content Area - Cleaner design
+.content-area {
+  margin-left: $sidebar-width;
+  padding: 1.5rem;
+  background: rgba(248, 250, 252, 0.03);
+  min-height: 100vh;
+  transition: $transition;
+
+  &.sidebar-expanded {
+    margin-left: $sidebar-width + $sidebar-open-width;
+  }
+}
+
+// Demo content - Minimal card
+.demo-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+
+
+}
+
+// Refined animations
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-1px); 
+  }
+}
+
+// Responsive Design - Mobile optimized
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 48px;
+  }
+
+  .sidebar-open {
+    width: 220px;
+    left: 48px;
+  }
+
+  .content-area {
+    margin-left: 48px;
+
+    &.sidebar-expanded {
+      margin-left: 268px;
+    }
+  }
+
+  .icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+// Compact mode for smaller screens
+@media (max-width: 480px) {
+  .content-area.sidebar-expanded {
+    margin-left: 0;
+    padding-left: 268px;
+  }
+}
+
+// Dark mode support with better contrast
+@media (prefers-color-scheme: dark) {
+  .demo-card {
+    background: rgba(30, 41, 59, 0.95);
+    color: #f8fafc;
+    border: 1px solid rgba(71, 85, 105, 0.3);
+  }
+}
+
+// Additional utility classes
+.sidebar-tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: $tertiary-dark;
+  color: $text-primary;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  margin-left: 0.5rem;
+  transition: $transition;
+  z-index: 1000;
+ 
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-right-color: $tertiary-dark;
+  }
+}
+
+.icon-btn:hover .sidebar-tooltip {
+  opacity: 1;
+}
+

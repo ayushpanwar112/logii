@@ -1,0 +1,192 @@
+<!-- navbar.component.html -->
+
+<!-- <i class="bi bi-person-circle"></i>
+<i class="bi bi-gear"></i>
+<i class="bi bi-arrow-repeat"></i>
+<i class="bi bi-question-circle-fill"></i>
+<i class="bi bi-calculator-fill"></i> -->
+
+<div class="nav-container">
+  <nav class="navbar custom-navbar navbar-expand-lg">
+    <div class="container-fluid justify-content-between">
+      <!-- Left side: Brand/Logo (optional) -->
+      <div class="navbar-brand d-flex align-items-center">
+        <!-- You can add your logo here if needed -->
+      </div>
+
+      <!-- Right side: Enhanced Icons/User Info -->
+      <div class="navbar-icons d-flex align-items-center">
+        <!-- Welcome text with time-based greeting -->
+        <span class="welcome-text d-none d-md-inline">
+          {{ getGreeting() }}, {{ currentUser.name || 'User' }}
+        </span>
+
+        <!-- Enhanced Profile Icon with status indicator -->
+        <div class="position-relative">
+          <i class="bi bi-person-circle profile-icon"
+             aria-label="User Profile"
+             title="Profile & Settings"
+             (click)="toggleProfileModal()"
+             (keydown.enter)="toggleProfileModal()"
+             (keydown.space)="toggleProfileModal()"
+             tabindex="0">
+          </i>
+        </div>
+
+        <!-- Enhanced Icon Buttons with improved accessibility -->
+     <i class="bi bi-calculator-fill text-white"
+   role="button" 
+   tabindex="0" 
+   aria-label="Calculator" 
+   title="Calculator"
+   (click)="openCalculator()"
+   (keydown.enter)="openCalculator()"
+   (keydown.space)="openCalculator()"></i>
+
+
+        <i class="bi bi-question-circle-fill text-white has-notification" 
+           role="button" 
+           tabindex="0" 
+           aria-label="Help & Support" 
+           title="Help & Support"
+           (click)="openHelp()"
+           (keydown.enter)="openHelp()"
+           (keydown.space)="openHelp()"></i>
+
+        <i class="bi bi-keyboard  text-white" 
+           role="button" 
+           tabindex="0" 
+           aria-label="Keyboard Shortcuts" 
+           title="Keyboard Shortcuts"
+           (click)="showShortcuts()"
+           (keydown.enter)="showShortcuts()"
+           (keydown.space)="showShortcuts()"></i>
+
+        <i class="bi bi-bar-chart text-white" 
+           role="button" 
+           tabindex="0" 
+           aria-label="Analytics Dashboard" 
+           title="Analytics Dashboard"
+           (click)="openAnalytics()"
+           (keydown.enter)="openAnalytics()"
+           (keydown.space)="openAnalytics()"></i>
+
+        <i class="bi bi-gear text-white" 
+           role="button" 
+           tabindex="0" 
+           aria-label="Settings" 
+           title="Settings"
+           (click)="onSettingsClick()"
+           (keydown.enter)="onSettingsClick()"
+           (keydown.space)="onSettingsClick()"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Enhanced Profile Modal -->
+  @if (showProfileModal()) {
+    <div class="modal fade show d-block"
+         tabindex="-1"
+         (click)="closeModalOnBackdrop($event)"
+         (keydown.escape)="closeProfileModal()"
+         style="background: rgba(0,0,0,0.1);">
+      
+      <div class="profile-container">
+        <div class="modal-content custom-modal-content">
+          <div class="modal-body">
+            <div class="profile-card-wrapper">
+              <!-- Enhanced Avatar -->
+              <div class="profile-avatar">
+                <i class="bi bi-person-circle"></i>
+              </div>
+              
+              <!-- Enhanced Profile Card -->
+              <div class="profile-card">
+                <!-- User Information -->
+                <div class="user-info">
+                  <div class="info-row">
+                    <div class="info-icon">
+                      <i class="bi bi-person fs-5"></i>
+                    </div>
+                    <div class="info-content">
+                      <div class="info-label">User Name</div>
+                      <div class="info-value">{{ currentUser.name || 'User Name' }}</div>
+                    </div>
+                  </div>
+                  
+                  <div class="info-row">
+                    <div class="info-icon">
+                      <i class="bi bi-envelope fs-5"></i>
+                    </div>
+                    <div class="info-content">
+                      <div class="info-label">Email</div>
+                      <div class="info-value">{{ currentUser.email || 'user@example.com' }}</div>
+                    </div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-icon">
+                      <i class="bi bi-shield-check fs-5"></i>
+                    </div>
+                    <div class="info-content">
+                      <div class="info-label">Role</div>
+                      <div class="info-value">{{ currentUser.role || 'Admin' }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Enhanced Testing/Organization Box -->
+                <div class="testing-box">
+                  <div class="testing-title">Organization Details</div>
+                  
+                  <div class="testing-row">
+                    <span class="testing-label">Financial Year:</span>
+                    <span class="testing-value">{{ organizationData.financialYear || '2025-2026' }}</span>
+                  </div>
+                  
+                  <div class="testing-row">
+                    <span class="testing-label">Location:</span>
+                    <span class="testing-value">{{ organizationData.address || 'Rajivnagar 248140' }}</span>
+                  </div>
+                  
+                  <div class="testing-row">
+                    <span class="testing-label">Department:</span>
+                    <span class="testing-value">{{ currentUser.department || 'IT Department' }}</span>
+                  </div>
+                </div>
+
+                <!-- Enhanced Action Buttons -->
+                <div class="action-buttons">
+                  <button type="button"
+                          class="btn btn-switch"
+                          (click)="switchAccount()"
+                          [disabled]="isSwitching()">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <span>{{ isSwitching() ? 'Switching...' : 'Switch' }}</span>
+                  </button>
+                  
+                  <button type="button"
+                          class="btn btn-logout"
+                          (click)="confirmLogout()"
+                          [disabled]="isLoggingOut()">
+                    <i class="bi bi-power"></i>
+                    <span>{{ isLoggingOut() ? 'Logging out...' : 'Log Out' }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Loading Spinner Component (optional) -->
+@if (isLoading()) {
+  <div class="loading-overlay">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
