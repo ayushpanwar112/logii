@@ -1,11 +1,15 @@
 <!-- Icon Sidebar Root -->
-  <div class="sidebar-container position-fixed d-flex flex-column pt-4"
-       [class.expanded]="sidebarExpanded">
-  <i class="bi bi-layout-sidebar-inset text-white my-2"
-     role="button"
-     title="Toggle sidebar width"
-     aria-label="Toggle sidebar width"
-     (click)="toggleSidebarExpansion()"></i>
+  <div class="sidebar-container position-fixed d-flex flex-column pt-5"
+       [class.expanded]="sidebarExpanded"
+       [attr.aria-expanded]="sidebarExpanded">
+    <button class="sidebar-toggle-btn" type="button"
+            (click)="toggleSidebarExpansion()"
+            (keydown.enter)="toggleSidebarExpansion()"
+            (keydown.space)="toggleSidebarExpansion()"
+            aria-label="Toggle primary menu"
+            [attr.aria-pressed]="sidebarExpanded">
+      <i class="bi" [ngClass]="sidebarExpanded ? 'bi-chevron-left' : 'bi-chevron-right'"></i>
+    </button>
     
     @for (panel of sidebarPanels; track panel.title; let i = $index) {
       <div class="d-flex align-items-center icon-btn my-2 flex-column"
@@ -25,17 +29,23 @@
   @if (showSidebar) {
     <div class="sidebar-open position-fixed"
          [class.shifted]="sidebarExpanded"
-         [class.show]="showSidebar">
-      <div class="sidebar-header">
-        <h4>Dashboard</h4>
+         [class.show]="showSidebar"
+         [class.animating-open]="animating && showSidebar"
+         [class.animating-close]="animating && !showSidebar"
+         (animationend)="onPanelAnimationEnd()">
+      <div class="sidebar-header d-flex align-items-center justify-content-between pe-2">
+        <h4 class="m-0">{{ sidebarPanels[selectedIndex].title }}</h4>
+        <button type="button" class="panel-close-btn" (click)="closeSidebar()" aria-label="Close panel">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
 
       <div class="sidebar-content">
-        <div class="drop" (mousedown)="closeSidebar()">
-          <i class="bi bi-chevron-bar-right text-white"></i>
-        </div>
+        <button class="floating-collapse" type="button" (click)="closeSidebar()" aria-label="Collapse side panel">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
 
-        @for (section of sidebarPanels[selectedIndex].sections; track section.name) {
+  @for (section of sidebarPanels[selectedIndex].sections; track section.name) {
           <div class="section-item mb-3">
             <div class="section-header"
                  [class.expanded]="section.expanded"

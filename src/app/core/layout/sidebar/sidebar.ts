@@ -39,6 +39,7 @@ export class Sidebar implements OnInit {
    showSidebar: boolean = false;
   selectedIndex: number = 0;
   sidebarExpanded: boolean = false;
+  animating: boolean = false; // panel animation state
 
   constructor(private tabService: TabService) { }
 
@@ -217,15 +218,16 @@ export class Sidebar implements OnInit {
 
   toggleSidebar(index: number): void {
     if (this.selectedIndex === index && this.showSidebar) {
-      this.showSidebar = false;
-    } else {
-      this.selectedIndex = index;
-      this.showSidebar = true;
+      this.startCloseAnimation();
+      return;
     }
+    this.selectedIndex = index;
+    this.showSidebar = true;
+    this.animating = true;
   }
 
   closeSidebar(): void {
-    this.showSidebar = false;
+    this.startCloseAnimation();
   }
 
   toggleSection(section: SidebarSection): void {
@@ -247,6 +249,19 @@ export class Sidebar implements OnInit {
 
   toggleSidebarExpansion(): void {
     this.sidebarExpanded = !this.sidebarExpanded;
+  }
+
+  private startCloseAnimation(): void {
+    if (!this.showSidebar) return;
+    this.animating = true;
+    // allow CSS animation class to play before hiding
+    // we keep showSidebar true until animationend then flip
+    this.showSidebar = false; // template uses negation with class.animating-close
+  }
+
+  onPanelAnimationEnd(): void {
+    // when closing, panel already hidden logically
+    this.animating = false;
   }
 
 }
