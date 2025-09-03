@@ -5,11 +5,12 @@ import { ConsigneeService } from '../../../services/consignee-service/consignee.
 import { CommonModule } from '@angular/common';
 import { ConsigneeFormComponent } from "../consignee-form/consignee-form";
 import { ConsigneeDeleteModal } from "../consignee-delete-modal/consignee-delete-modal";
+import { ConsigneeFilterModal } from "../consignee-filter-modal/consignee-filter-modal";
 
 @Component({
   selector: 'app-consignee.list',
   standalone: true,
-  imports: [FormsModule, CommonModule, ConsigneeFormComponent, ConsigneeDeleteModal],
+  imports: [FormsModule, CommonModule, ConsigneeFormComponent, ConsigneeDeleteModal, ConsigneeFilterModal],
   templateUrl: './consignee.list.html',
   styleUrl: './consignee.list.scss'
 })

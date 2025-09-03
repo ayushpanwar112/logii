@@ -1,53 +1,40 @@
 <div class="form-container">
   <div class="container-fluid challan-wrapper">
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 px-2">
-      
-      <!-- LEFT SECTION -->
-  <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center col-12 col-lg-8 nav-head nav-head-gap">
-        
-        <!-- Category Filter -->
-  <select id="categoryFilter" name="categoryFilter" aria-label="Choose a country" 
-    class="form-control category-filter-width">
-          <option value="all">All</option>
-          <option value="regdMobileNo">Regd. Mobile No</option>
-          <option value="gstin">GSTIN</option>
-          <option value="name">Name</option>
-          <option value="code">Code</option>
-          <option value="city">City</option>
-          <option value="pin">Pin</option>
-          <option value="state">State</option>
-          <option value="country">Country</option>
-        </select>
-
-        <!-- Search Box -->
-  <div class="search-box d-flex align-items-center flex-grow-1 search-box-sizing">
-          <input type="text" class="search-input form-control mr-2"
-                 placeholder="Search" aria-label="Search" 
-                 [(ngModel)]="searchText" />
-          <button class="search-btn btn btn-primary" aria-label="Search">
-            <i class="bi bi-search"></i>
-          </button>
+    <header class="list-toolbar mb-1">
+      <div class="toolbar-left">
+        <!-- Filter -->
+        <div class="field-group">
+          <label for="categoryFilter" class="field-label d-none d-xl-inline">Filter</label>
+          <select id="categoryFilter" name="categoryFilter" class="form-select form-select-sm category-filter" aria-label="Select filter column">
+            <option value="all">All</option>
+            <option value="regdMobileNo">Regd. Mobile No</option>
+            <option value="gstin">GSTIN</option>
+            <option value="name">Name</option>
+            <option value="code">Code</option>
+            <option value="city">City</option>
+            <option value="pin">Pin</option>
+            <option value="state">State</option>
+            <option value="country">Country</option>
+          </select>
         </div>
 
-        <!-- Funnel Icon -->
-        <i class="bi bi-funnel-fill icons" (click)="openFilter()"></i>
-
-        <!-- Reset Button -->
-        <button class="btn btn-secondary" (click)="resetSearch()" aria-label="Reset Search">
-          <i class="bi bi-arrow-counterclockwise"></i>
-        </button>
-
+        <!-- Search -->
+        <div class="search-group">
+          <input type="text" class="form-control form-control-sm search-input" placeholder="Search..." [(ngModel)]="searchText" aria-label="Search text" (keyup.enter)="getList()" />
+          <button class="icon-btn search" aria-label="Run search" (click)="getList()"><i class="bi bi-search"></i></button>
+          <button class="icon-btn reset" aria-label="Reset search" title="Reset" (click)="resetSearch()"><i class="bi bi-arrow-counterclockwise"></i></button>
+          <button class="icon-btn filter" aria-label="Open advanced filter" title="Advanced Filter" (click)="openFilter()"><i class="bi bi-funnel"></i></button>
+        </div>
       </div>
 
-      <!-- RIGHT SECTION -->
-      <div class="col-12 col-lg-4 mt-3 mt-lg-0 d-flex justify-content-end">
-        <button class="btn-create" (click)="openForm()">
-          <i class="bi bi-plus-circle mr-2"></i>
-          <span class="d-none d-sm-inline">Create</span>
-          <span class="shortcut d-none d-md-inline">/F1</span>
+      <div class="toolbar-right">
+        <button class="btn-create primary" (click)="openForm()" aria-label="Create Consignee">
+          <i class="bi bi-plus-lg"></i>
+          <span class="label d-none d-sm-inline">Create</span>
+          <span class="shortcut d-none d-md-inline">F1</span>
         </button>
       </div>
-    </div>
+    </header>
 
     <div class="row">
       <div class="col-12 table-responsive">
@@ -175,13 +162,14 @@
       (refreshList)="getList()">
     </app-consignee-form>
   }
-<!-- 
+
   @if (isFilterShow) {
     <div class="filter-container">
-      <app-consignee-filter (toggleFilter)="openFilter()"></app-consignee-filter>
+      <app-consignee-filter-modal (toggleFilter)="openFilter()"></app-consignee-filter-modal>
+      
     </div>
   }
- -->
+
   @if (isDeleteOpen) {
     <div class="delete-modal-backdrop">
       <div class="delete-modal-content">
