@@ -1,1 +1,22 @@
-<p>tab-bar works!</p>
+<div class="tab-bar d-flex align-items-stretch">
+	<div class="tabs d-flex flex-row overflow-auto">
+		@for (t of tabs(); track t.id) {
+			<div class="tab px-3 py-1 d-flex align-items-center" [class.active]="t.active" (click)="activate(t)" (contextmenu)="$event.preventDefault(); closeOthers(t, $event)">
+				@if (t.icon) { <i class="me-1" [class]="t.icon"></i> }
+				<span class="title">{{ t.title }}</span>
+				@if (t.closable) {
+					<button class="btn-close ms-2" (click)="close(t, $event)" aria-label="Close"></button>
+				}
+			</div>
+		}
+		<div class="tab add-tab px-2 py-1 d-flex align-items-center" (click)="openNewTab($event)" title="New Tab">
+			<i class="bi bi-plus-lg"></i>
+		</div>
+	</div>
+	<div class="tab-actions ms-auto d-flex align-items-center pe-2 gap-2">
+		<button class="btn btn-sm btn-outline-secondary" (click)="closeAll($event)" [disabled]="!tabs().length">Close All</button>
+	</div>
+</div>
+<div class="tab-content-wrapper position-relative">
+	<ng-template #tabHost></ng-template>
+</div>

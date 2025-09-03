@@ -3,12 +3,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TabService } from '../../services/tab.service';
+
+import { ConsigneeList } from '../../../features/operations/master/pages/consignee/consignee.list/consignee.list';
 
 
 interface SubItem {
   name: string;
   route?: string;
   active?: boolean;
+  enabled?: boolean; // if false, kept for future but not shown yet
 }
 
 interface SidebarSection {
@@ -36,7 +40,7 @@ export class Sidebar implements OnInit {
   selectedIndex: number = 0;
   sidebarExpanded: boolean = false;
 
-  constructor() { }
+  constructor(private tabService: TabService) { }
 
   ngOnInit(): void { }
 
@@ -109,18 +113,18 @@ export class Sidebar implements OnInit {
       sections: [
         {
           name: 'Masters',
-          expanded: false,
+          expanded: true,
           subItems: [
-            { name: 'Consignee', route: '/consignee' },
-            { name: 'Billing Party', route: '/billingparty' },
-            { name: 'Transporter', route: '/users/inactive' },
-            { name: 'Vehicle', route: '/users/groups' },
-            { name: 'Vehicle Make', route: '/users/groups' },
-            { name: 'Vehicle Model', route: '/users/groups' },
-            { name: 'Driver', route: '/users/groups' },
-            { name: 'Employee', route: '/users/groups' },
-            { name: 'Content', route: '/users/groups' },
-            { name: 'Load Capacity', route: '/users/groups' }
+            { name: 'Consignee', route: '/operations/master/consignee', active: true, enabled: true },
+            { name: 'Billing Party', route: '/operations/master/billing-party', enabled: false },
+            { name: 'Transporter', route: '/operations/master/transporter', enabled: false },
+            { name: 'Vehicle', route: '/operations/master/vehicle', enabled: false },
+            { name: 'Vehicle Make', route: '/operations/master/vehicle-make', enabled: false },
+            { name: 'Vehicle Model', route: '/operations/master/vehicle-model', enabled: false },
+            { name: 'Driver', route: '/operations/master/driver', enabled: false },
+            { name: 'Employee', route: '/operations/master/employee', enabled: false },
+            { name: 'Content', route: '/operations/master/content', enabled: false },
+            { name: 'Load Capacity', route: '/operations/master/load-capacity', enabled: false }
           ]
         },
         {
@@ -231,24 +235,14 @@ export class Sidebar implements OnInit {
   }
 
   selectSubItem(subItem: SubItem): void {
-    // Clear active states on all sub-items
-    this.sidebarPanels.forEach(panel => {
-      panel.sections.forEach(section => {
-        section.subItems?.forEach(item => {
-          if (typeof item === 'object') {
-            item.active = false;
-          }
-        });
-      });
-    });
-
-    if (subItem && subItem.name) {
-      subItem.active = true;
-      if (subItem.route) {
-        // Update the currently active tab's title and route via TabService
-       /*  this.tabService.updateActiveTabRoute(subItem.route, subItem.name); */
-      }
+    // Mark active in menu
+    this.sidebarPanels.forEach(panel => panel.sections.forEach(section => section.subItems?.forEach(i => i.active = false)));
+    subItem.active = true;
+    // Open / activate tab (currently only Consignee implemented)
+    if (subItem.name === 'Consignee') {
+      this.tabService.openOrActivate('Consignee', ConsigneeList, { icon: 'bi bi-person-lines-fill', singleton: true, stateFactory: () => ({}) });
     }
+    // Future: map other names to their components here.
   }
 
   toggleSidebarExpansion(): void {

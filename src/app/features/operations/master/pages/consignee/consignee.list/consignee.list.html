@@ -1,0 +1,200 @@
+<div class="form-container">
+  <div class="container-fluid challan-wrapper">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 px-2">
+      
+      <!-- LEFT SECTION -->
+      <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center col-12 col-lg-8 nav-head" style="gap: 1rem;">
+        
+        <!-- Category Filter -->
+        <select id="categoryFilter" name="categoryFilter" aria-label="Choose a country" 
+                class="form-control" style="width: auto; min-width: 140px;">
+          <option value="all">All</option>
+          <option value="regdMobileNo">Regd. Mobile No</option>
+          <option value="gstin">GSTIN</option>
+          <option value="name">Name</option>
+          <option value="code">Code</option>
+          <option value="city">City</option>
+          <option value="pin">Pin</option>
+          <option value="state">State</option>
+          <option value="country">Country</option>
+        </select>
+
+        <!-- Search Box -->
+        <div class="search-box d-flex align-items-center flex-grow-1" 
+             style="max-width: 500px; min-width: 200px;">
+          <input type="text" class="search-input form-control mr-2"
+                 placeholder="Search" aria-label="Search" 
+                 [(ngModel)]="searchText" />
+          <button class="search-btn btn btn-primary" aria-label="Search">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+
+        <!-- Funnel Icon -->
+        <i class="bi bi-funnel-fill icons" (click)="openFilter()"></i>
+
+        <!-- Reset Button -->
+        <button class="btn btn-secondary" (click)="resetSearch()" aria-label="Reset Search">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+
+      </div>
+
+      <!-- RIGHT SECTION -->
+      <div class="col-12 col-lg-4 mt-3 mt-lg-0 d-flex justify-content-end">
+        <button class="btn-create" (click)="openForm()">
+          <i class="bi bi-plus-circle mr-2"></i>
+          <span class="d-none d-sm-inline">Create</span>
+          <span class="shortcut d-none d-md-inline">/F1</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-bordered challan-table">
+          <thead>
+            <tr>
+              <th class="text-right">Sr. No.</th>
+              <th class="text-right">Regd. Mobile No.</th>
+              <th>GSTIN</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>City</th>
+              <th class="text-right">PIN</th>
+              <th>State</th>
+              <th>Country</th>
+              <th>Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of consogneeListApiData; track c.Id; let i = $index) {
+              <tr>
+                <td class="text-right">{{ i + 1 }}</td>
+                <td class="text-right">{{ c.MobileNo }}</td>
+                @if (c.Gstin) {
+                  <td>
+                    <span class="gstin-badge">{{ c.Gstin }}</span>
+                  </td>
+                } @else {
+                  <td></td>
+                }
+                <td>{{ c.Name }}</td>
+                <td>{{ c.Code }}</td>
+                <td>{{ c.City }}</td>
+                <td class="text-right">{{ c.Pincode }}</td>
+                <td>{{ c.State }}</td>
+                <td>{{ c.Country }}</td>
+                <td>
+                  <span
+                    class="status-badge"
+                    [ngClass]="{
+                      'confirmed': c.Stscode === 1,
+                      'cancelled': c.Stscode === 2,
+                      'locked': c.Stscode !== 1 && c.Stscode !== 2
+                    }"
+                  >
+                    @if (c.Stscode === 1) {
+                      <i class="bi bi-check-circle-fill mr-1" aria-hidden="true"></i>
+                    } @else if (c.Stscode === 2) {
+                      <i class="bi bi-x-circle-fill mr-1" aria-hidden="true"></i>
+                    } @else {
+                      <i class="bi bi-lock-fill mr-1" aria-hidden="true"></i>
+                    }
+                    {{ c.Stscode === 1 ? 'Confirmed' : (c.Stscode === 2 ? 'Cancelled' : 'Locked') }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="action-btn view" title="View" (click)="viewConsignee(c.Id)">
+                    <i class="bi bi-eye"></i>
+                  </span>
+                  <span class="action-btn edit" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                  </span>
+                  <span class="action-btn delete" title="Delete" (click)="openDeleteModal(c.Id)">
+                    <i class="bi bi-trash"></i>
+                  </span>
+                  <span class="action-btn cancel" title="Cancel" (click)="cancelConsigneeRow(c.Id, c.Stscode)">
+                    <i class="bi bi-x-circle"></i>
+                  </span>
+                </td>
+              </tr>
+            }
+            @for (e of getEmptyRows(); track $index) {
+              <tr>
+                <td colspan="11">&nbsp;</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-container ml-5">
+        <!-- Left: Rows per page -->
+        <div class="footer-left">
+          <label for="pageSize" class="d-none d-sm-inline">Rows per page:</label>
+          <select id="pageSize" class="form-control form-control-sm">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="30">30</option>
+          </select>
+        </div>
+        
+        <!-- Center: Page info -->
+        <div class="footer-center d-none d-md-flex">
+          Page <strong>1</strong> of <strong>25</strong>
+        </div>
+        
+        <!-- Right: Pagination -->
+        <div class="footer-right">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span class="d-none d-sm-inline">&laquo; Prev</span>
+                <span class="d-inline d-sm-none">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span class="d-none d-sm-inline">Next &raquo;</span>
+                <span class="d-inline d-sm-none">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  @if (isFormOpen) {
+    <app-consignee-form
+      [(openbtn)]="isFormOpen" 
+      [selectedConsignee]="selectedConsigneeForm" 
+      (refreshList)="getList()">
+    </app-consignee-form>
+  }
+<!-- 
+  @if (isFilterShow) {
+    <div class="filter-container">
+      <app-consignee-filter (toggleFilter)="openFilter()"></app-consignee-filter>
+    </div>
+  }
+ -->
+  @if (isDeleteOpen) {
+    <div class="delete-modal-backdrop">
+      <div class="delete-modal-content">
+        <app-consignee-delete-modal
+          [consigneeId]="selectedConsigneeId"
+          [consigneeStscode]="selectedStscode"
+          (closeModal)="closeDeleteModal()"
+          [typeofMode]="mode"
+          [refreshFn]="getList.bind(this)"
+          entity="Consignee">
+        </app-consignee-delete-modal>
+      </div>
+    </div>
+  }
+</div>

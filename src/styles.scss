@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-card: #fff;
+  --primary-text: #000;
+  --secondry-text: #6b7280;
+  --border-color: #e5e7eb;
+  --border-blue: #3b82f6;
+
+
+  --color-card: #2c3e50;
+  --primary-text: #ffffff;
+  --accent-color: #3498db;
+  --success-color: #27ae60;
+  --danger-color: #e74c3c;
+  --warning-color: #f39c12;
+  --info-color: #17a2b8;
+  --light-bg: #ecf0f1;
+  --border-color: #dee2e6;
+  --hover-color: #34495e;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+
+
+// Each theme overrides variables
+.dark-theme {
+  --color-card: #1f2937;
+  --primary-text: #f9fafb;
+  --secondry-text: #9ca3af;
+  --border-color: #374151;
+  --border-blue: #3b82f6;
+}
+
+.light-theme {
+  --color-card: #ffffff;
+  --primary-text: #1d1d1d;
+  --secondry-text: #6b7280;
+  --border-color: #e5e7eb;
+  --border-blue: #3b82f6;
+}
+
+.pink-theme {
+  --color-card: #f747a7;
+  --primary-text: #ffffff;
+  --secondry-text: #db2777;
+  --border-color: #fbcfe8;
+  --border-blue: #ec4899;
+}
+
+.orange-theme {
+  --color-card: #f5972c;
+  --primary-text: white;
+  --secondry-text: #fb923c;
+  --border-color: #fed7aa;
+  --border-blue: #f97316;
+}
+
+.green-theme {
+  --color-card: #3bb68b;
+  --primary-text: white;
+  --secondry-text: #34d399;
+  --border-color: #d1fae5;
+  --border-blue: #10b981;
+}
+
+.gray-theme {
+  --color-card: #414242;
+  --primary-text: white;
+  --secondry-text: #6b7280;
+  --border-color: #d1d5db;
+  --border-blue: #6b7280;
+}
+
+.blue-theme {
+  --color-card: #3677f8;
+  --primary-text: #d9e6f8;
+  --secondry-text: #6b7280;
+  --border-color: #d1d5db;
+  --border-blue: #6b7280;
+}

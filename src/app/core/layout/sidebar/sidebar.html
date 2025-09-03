@@ -1,10 +1,11 @@
-<div class="main-layout d-flex h-100">
-  <!-- Icon Sidebar -->
-  <div class="sidebar-container position-fixed z-3 d-flex flex-column pt-4"
+<!-- Icon Sidebar Root -->
+  <div class="sidebar-container position-fixed d-flex flex-column pt-4"
        [class.expanded]="sidebarExpanded">
-    <i class="bi bi-layout-sidebar-inset text-white my-2"
-       role="button"
-       (click)="toggleSidebarExpansion()"></i>
+  <i class="bi bi-layout-sidebar-inset text-white my-2"
+     role="button"
+     title="Toggle sidebar width"
+     aria-label="Toggle sidebar width"
+     (click)="toggleSidebarExpansion()"></i>
     
     @for (panel of sidebarPanels; track panel.title; let i = $index) {
       <div class="d-flex align-items-center icon-btn my-2 flex-column"
@@ -22,7 +23,7 @@
 
   <!-- Slide-out Sidebar -->
   @if (showSidebar) {
-    <div class="sidebar-open position-fixed z-2"
+    <div class="sidebar-open position-fixed"
          [class.shifted]="sidebarExpanded"
          [class.show]="showSidebar">
       <div class="sidebar-header">
@@ -49,12 +50,14 @@
               <div class="sub-items"
                    [class.expanded]="section.expanded && section.subItems">
                 @for (sub of section.subItems; track sub.name) {
-                  <div class="sub-item"
-                       (click)="selectSubItem(sub)"
-                       [routerLink]="sub.route"
-                       routerLinkActive="active">
-                    {{ sub.name }}
-                  </div>
+                  @if (sub.enabled !== false) {
+                    <div class="sub-item"
+                         (click)="selectSubItem(sub)"
+                         [class.active]="sub.active"
+                         attr.data-route="{{sub.route}}">
+                      {{ sub.name }}
+                    </div>
+                  }
                 }
               </div>
             }
@@ -63,4 +66,3 @@
       </div>
     </div>
   }
-</div>

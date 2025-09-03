@@ -1,0 +1,11 @@
+/* Basic layout spacing so sidebar (fixed) doesn't overlap content */
+:host { display:block; }
+app-navbar { display:block; }
+app-sidebar { position:relative; z-index:30; }
+.sidebar-container { top:50px; left:0; height:calc(100vh - 50px); z-index:30; }
+.sidebar-open { top:50px; }
+.content-area { position:relative; z-index:10; margin-left:56px; padding-top:0.4px; min-height:calc(100vh - 50px); background:#f8fafc; }
+/* Adjust when expanded sidebar (80px) - sidebar adds class expanded to container; simplest approximation */
+@media (min-width: 600px) { .sidebar-container.expanded ~ .content-area { margin-left:80px; } }
+/* Tab pane host ensures full height */
+.tab-pane-host { min-height: calc(100vh - 100px); box-sizing:border-box; padding:1rem; }

@@ -1,0 +1,11 @@
+:host { display: block; }
+.tab-bar { background: #1e293b; border-bottom: 1px solid #334155; }
+.tab { cursor: pointer; color: #cbd5e1; position: relative; -webkit-user-select: none; user-select: none; }
+.tab.active { background: #334155; color: #fff; }
+.tab:hover { background: #475569; }
+.tab.add-tab { font-weight:600; }
+.tab.add-tab i { font-size: .9rem; }
+.tab .btn-close { filter: invert(1); opacity: .6; font-size: .55rem; }
+.tab .btn-close:hover { opacity: 1; }
+.tab-content-wrapper { min-height: 300px; background: #fff; }
+.hidden-tab { display: none !important; }
