@@ -16,7 +16,7 @@ import { ConsigneeDeleteModal } from "../consignee-delete-modal/consignee-delete
 export class ConsigneeList {
 
 
-   selectedConsigneeId: string | null = null;
+  selectedConsigneeId: number | null = null;
   isDeleteOpen: boolean = false;
   consogneeListApiData: ConsigneeApiResponse[] = []; // to show data in table
   selectedConsigneeForm: any = null; // to pass data to form component
@@ -63,10 +63,12 @@ export class ConsigneeList {
   }
 
   openDeleteModal(id: string | number): void {
-    id = String(id);
+    const numericId = Number(id);
     this.mode = 'DELETE';
-    this.selectedConsigneeId = String(id);
-    this.isDeleteOpen = true;
+    this.selectedConsigneeId = isNaN(numericId) ? null : numericId;
+    if (this.selectedConsigneeId !== null) {
+      this.isDeleteOpen = true;
+    }
   }
 
   closeDeleteModal(): void {
@@ -89,10 +91,13 @@ export class ConsigneeList {
   }
 
   cancelConsigneeRow(id: string | number, stscode: number): void {
+    const numericId = Number(id);
     this.mode = 'CANCEL';
-    this.selectedConsigneeId = String(id);
+    this.selectedConsigneeId = isNaN(numericId) ? null : numericId;
     this.selectedStscode = stscode;
-    this.isDeleteOpen = true;
+    if (this.selectedConsigneeId !== null) {
+      this.isDeleteOpen = true;
+    }
   }
 
   @HostListener('window:keydown', ['$event'])

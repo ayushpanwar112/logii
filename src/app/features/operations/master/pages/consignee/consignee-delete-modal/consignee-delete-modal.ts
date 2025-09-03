@@ -15,7 +15,7 @@ export class ConsigneeDeleteModal {
 
 
 
-  @Input() consigneeId!: number;
+  @Input() consigneeId: number | null = null;
   @Output() closeModal = new EventEmitter<void>();
   @Input() typeofMode!:string; // to differentiate between delete and cancel
   @Input() consigneeStscode!:number|null;
@@ -37,14 +37,21 @@ reason:string='APPROVED DELETE';
   ngOnInit(): void {
    // console.log(this.typeofMode)
    console.log(this.consigneeId,"id by id")
-   
-    this.deleteRecord();
-   this.SelectMode();
+   this.deleteRecord();
+   if (this.consigneeId !== null) {
+     this.SelectMode();
+   } else {
+     console.warn('ConsigneeDeleteModal initialized without a valid consigneeId');
+   }
     
     
   }
  
 SelectMode() {
+  if (this.consigneeId == null) {
+    console.warn('SelectMode called without consigneeId');
+    return;
+  }
   switch (this.typeofMode) {
     case 'CANCEL':
       console.log(this.consigneeId,"case");
