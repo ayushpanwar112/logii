@@ -30,17 +30,23 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 .sidebar-container {
   width: $sidebar-width;
   background: $primary-dark;
-  height: 100%;
+  height: calc(100vh - 64px); // leave space for navbar
+  top: 64px; // align below fixed navbar
+  left: 0;
   align-items: center;
   border-right: 1px solid $border-color;
-  box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.1);
-  transition: $transition;
+  box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.25);
+  transition: width .25s cubic-bezier(0.4,0,0.2,1), background-color .25s, box-shadow .25s;
   padding: 0 0.5rem;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 1010; // above content, below navbar if navbar uses >1010
   p {
     font-size: 10px;
   }
   &.expanded {
-    width:80px;
+    width:84px;
     align-items: flex-start; // Align icons + text to the left
     
     .icon-btn{
@@ -112,18 +118,22 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 // Slide-out Sidebar - Refined design
 .sidebar-open {
   width: $sidebar-open-width;
-  height: 100%;
-  top: 0;
+  height: calc(100vh - 64px);
+  top: 64px;
   left: $sidebar-width;
-  background: $secondary-dark;
+  background: linear-gradient(180deg, rgba(34,35,36,0.95) 0%, rgba(34,35,36,0.88) 100%);
   border-right: 1px solid $border-color;
- 
-  overflow-y: auto;
-  transform: translateX(-100%);
-  transition: $transition;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  overflow: hidden; // prevent whole panel scroll; inner content scrolls
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-120%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1), left .25s;
+  z-index: 1009;
 
    &.shifted {
-    left: 80px; // expanded sidebar width
+    left: 84px; // expanded sidebar width sync
   }
 
 
@@ -152,10 +162,14 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Sidebar Header - Compact
 .sidebar-header {
-  padding: 1rem;
-  border-bottom: 1px solid $border-color;
-  background: rgba(235, 36, 36, 0.02);
-
+  padding: 0.85rem 1rem 0.75rem 1rem;
+  border-bottom: 1px solid rgba($border-color,0.6);
+  background: linear-gradient(180deg, rgba(48,48,48,0.9) 0%, rgba(48,48,48,0.75) 100%);
+  position: sticky; // stays visible
+  top: 0;
+  z-index: 2;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   h4 {
     color: $text-primary;
     font-weight: 600;
@@ -167,7 +181,9 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Sidebar Content - Optimized spacing
 .sidebar-content {
-  padding: 0.75rem;
+  padding: 0.75rem 0.75rem 1rem 0.75rem;
+  flex: 1 1 auto;
+  overflow-y: auto;
 
   .drop {
     background-color: #1658b4;
@@ -192,6 +208,11 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       transform: rotate(180deg); // Optional: Rotate icon on hover
     }
   }
+  // custom slim scrollbar only inside scroll area
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: rgba($border-color,0.6); border-radius: 3px; }
+  &::-webkit-scrollbar-thumb:hover { background: $accent-color; }
 }
 
 
@@ -340,12 +361,14 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // Content Area - Cleaner design
+
 .content-area {
-  margin-left: $sidebar-width;
-  padding: 1.5rem;
-  background: rgba(248, 250, 252, 0.03);
-  min-height: 100vh;
-  transition: $transition;
+  margin-left: $sidebar-width; // base collapsed width
+  padding: 0 1.25rem 1.5rem 1.25rem;
+  background: rgba(248, 250, 252, 0.02);
+  min-height: calc(100vh - 64px);
+  margin-top: 64px; // below navbar
+  transition: margin-left .25s cubic-bezier(.4,0,.2,1);
 
   &.sidebar-expanded {
     margin-left: $sidebar-width + $sidebar-open-width;
@@ -381,13 +404,15 @@ $transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   .sidebar-open {
     width: 220px;
     left: 48px;
+  height: calc(100vh - 64px);
+  top: 64px;
   }
 
   .content-area {
     margin-left: 48px;
-
+  margin-top: 64px;
     &.sidebar-expanded {
-      margin-left: 268px;
+      margin-left: 48px + 220px;
     }
   }
 

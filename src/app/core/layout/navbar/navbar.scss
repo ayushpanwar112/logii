@@ -22,10 +22,15 @@ $border-radius-lg: 12px;
 
 // Enhanced Navbar Container
 .nav-container {
-  position: relative;
+  position: fixed; // keep navbar fixed
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  margin-left:0px ;
-  z-index: 100;
+  margin-left:0;
+  z-index: 1200; // above sidebar
+  height: $navbar-height;
+  background: $navbar-bg;
 
   .profile-container {
     position: absolute;
@@ -37,8 +42,8 @@ $border-radius-lg: 12px;
 
 // Modern Navbar Styling
 .custom-navbar {
-  height: $navbar-height;
-  background: $navbar-bg;
+  height: 100%;
+  background: transparent; // parent already painted
   border-bottom: 1px solid $navbar-border;
   box-shadow: $shadow-sm;
   padding: 0 1.5rem;
