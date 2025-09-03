@@ -1,0 +1,66 @@
+<div class="main-layout d-flex h-100">
+  <!-- Icon Sidebar -->
+  <div class="sidebar-container position-fixed z-3 d-flex flex-column pt-4"
+       [class.expanded]="sidebarExpanded">
+    <i class="bi bi-layout-sidebar-inset text-white my-2"
+       role="button"
+       (click)="toggleSidebarExpansion()"></i>
+    
+    @for (panel of sidebarPanels; track panel.title; let i = $index) {
+      <div class="d-flex align-items-center icon-btn my-2 flex-column"
+           [class.active]="selectedIndex === i"
+           [attr.data-bs-toggle]="'tooltip'"
+           [attr.title]="panel.title"
+           (click)="toggleSidebar(i)">
+        <i class="{{ panel.icon }}"></i>
+        @if (sidebarExpanded) {
+          <p class="text-white">{{ panel.title }}</p>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Slide-out Sidebar -->
+  @if (showSidebar) {
+    <div class="sidebar-open position-fixed z-2"
+         [class.shifted]="sidebarExpanded"
+         [class.show]="showSidebar">
+      <div class="sidebar-header">
+        <h4>Dashboard</h4>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="drop" (mousedown)="closeSidebar()">
+          <i class="bi bi-chevron-bar-right text-white"></i>
+        </div>
+
+        @for (section of sidebarPanels[selectedIndex].sections; track section.name) {
+          <div class="section-item mb-3">
+            <div class="section-header"
+                 [class.expanded]="section.expanded"
+                 (click)="toggleSection(section)">
+              <span class="section-title">{{ section.name }}</span>
+              <i class="bi section-chevron"
+                 [ngClass]="section.expanded ? 'bi-chevron-down rotated' : (section.subItems ? 'bi-chevron-right' : '')">
+              </i>
+            </div>
+
+            @if (section.subItems) {
+              <div class="sub-items"
+                   [class.expanded]="section.expanded && section.subItems">
+                @for (sub of section.subItems; track sub.name) {
+                  <div class="sub-item"
+                       (click)="selectSubItem(sub)"
+                       [routerLink]="sub.route"
+                       routerLinkActive="active">
+                    {{ sub.name }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
