@@ -1,10 +1,11 @@
 .challan-wrapper {
   background: #e4e4e6;
   border-radius: 16px;
-  padding: 21px 8px 8px 8px;
-  min-height: 70%;
+  padding: 20px 8px 0 8px; // no bottom padding so footer sits flush
   position: relative;
-  
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 140px); // adjust based on header/tab heights
 }
 
 // Utility classes replacing previous inline styles
@@ -54,7 +55,7 @@
 /* Table responsiveness */
 .challan-table {
   background: #fff;
-  overflow: hidden;
+  overflow: visible;
   margin-top: 3px;
 
   th,
@@ -73,7 +74,48 @@
   }
 }
 
+/* Scroll container for table body */
+.table-responsive {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+  /* Provide internal scroll height so sticky thead works; adjust subtraction if header/footer sizes change */
+  max-height: calc(100vh - 260px);
+}
+
+/* Sticky header */
+.challan-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-card);
+  box-shadow: 0 2px 3px -1px rgba(0,0,0,0.15);
+}
+
+/* Footer (flex push) */
+.footer {
+  margin-top: auto;
+  width: 100%;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,.04);
+  @media (max-width: 767.98px) { min-height: 52px; }
+  @media (max-width: 575.98px) { min-height: 56px; }
+}
+
+/* Narrow scrollbars (WebKit) */
+.table-responsive::-webkit-scrollbar { width: 10px; height: 10px; }
+.table-responsive::-webkit-scrollbar-track { background: #f1f1f1; }
+.table-responsive::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 6px; }
+.table-responsive::-webkit-scrollbar-thumb:hover { background: #a7a7a7; }
+
 /* Responsive tweaks */
+.challan-wrapper > .row { flex: 1 1 auto; min-height: 0; }
 @media (max-width: 768px) {
   .nav-head {
     flex-direction: column !important;

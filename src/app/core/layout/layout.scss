@@ -12,7 +12,7 @@ app-sidebar { position:relative; z-index:30;  }
 .sidebar-open { top:50px; }
 
 
-.content-area { position:relative; z-index:10; margin-left:56px; padding-top:0.4px; min-height:calc(100vh - 50px); background:#f8fafc; }
+.content-area { position:relative; z-index:10; margin-left:56px; padding-top:0.4px; background:#f8fafc; }
 /* Adjust when expanded sidebar (80px) - sidebar adds class expanded to container; simplest approximation */
 
 
