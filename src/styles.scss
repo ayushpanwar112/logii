@@ -1,28 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --color-card: #fff;
-  --primary-text: #000;
-  --secondry-text: #6b7280;
-  --border-color: #e5e7eb;
+  /* Base semantic design tokens */
+  --color-card: #ffffff;
+  --primary-text: #0f172a;
+  --secondry-text: #64748b;
+  --border-color: #e2e8f0;
   --border-blue: #3b82f6;
-
-
-  --color-card: #2c3e50;
-  --primary-text: #ffffff;
-  --accent-color: #3498db;
-  --success-color: #27ae60;
-  --danger-color: #e74c3c;
-  --warning-color: #f39c12;
-  --info-color: #17a2b8;
-  --light-bg: #ecf0f1;
-  --border-color: #dee2e6;
-  --hover-color: #34495e;
-  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --accent-color: #2563eb;
+  --accent-contrast: #ffffff;
+  --bg-app: #f1f5f9;
+  --bg-muted: #f8fafc;
+  --success-color: #16a34a;
+  --danger-color: #dc2626;
+  --warning-color: #d97706;
+  --info-color: #0ea5e9;
+  --hover-color: #1e3a8a;
+  --shadow-light: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-medium: 0 4px 12px -2px rgba(0,0,0,.15), 0 2px 6px -2px rgba(0,0,0,.1);
+  --shadow-heavy: 0 10px 28px -8px rgba(0,0,0,.4), 0 6px 18px -6px rgba(0,0,0,.28);
   --border-radius: 12px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: .25s cubic-bezier(.4,0,.2,1);
+  --ring-focus: 0 0 0 3px rgba(59,130,246,.4);
 }
 
 
@@ -36,6 +35,8 @@
   --secondry-text: #9ca3af;
   --border-color: #374151;
   --border-blue: #3b82f6;
+  --accent-color: #3b82f6;
+  --accent-contrast: #ffffff;
 }
 
 .light-theme {
@@ -44,6 +45,8 @@
   --secondry-text: #6b7280;
   --border-color: #e5e7eb;
   --border-blue: #3b82f6;
+  --accent-color: #2563eb;
+  --accent-contrast: #ffffff;
 }
 
 .pink-theme {
@@ -52,6 +55,8 @@
   --secondry-text: #db2777;
   --border-color: #fbcfe8;
   --border-blue: #ec4899;
+  --accent-color: #ec4899;
+  --accent-contrast: #ffffff;
 }
 
 .orange-theme {
@@ -60,6 +65,8 @@
   --secondry-text: #fb923c;
   --border-color: #fed7aa;
   --border-blue: #f97316;
+  --accent-color: #f97316;
+  --accent-contrast: #ffffff;
 }
 
 .green-theme {
@@ -68,6 +75,8 @@
   --secondry-text: #34d399;
   --border-color: #d1fae5;
   --border-blue: #10b981;
+  --accent-color: #10b981;
+  --accent-contrast: #ffffff;
 }
 
 .gray-theme {
@@ -76,6 +85,8 @@
   --secondry-text: #6b7280;
   --border-color: #d1d5db;
   --border-blue: #6b7280;
+  --accent-color: #6b7280;
+  --accent-contrast: #ffffff;
 }
 
 .blue-theme {
@@ -84,4 +95,78 @@
   --secondry-text: #6b7280;
   --border-color: #d1d5db;
   --border-blue: #6b7280;
+  --accent-color: #2563eb;
+  --accent-contrast: #ffffff;
+}
+
+/* New extended palettes */
+.purple-theme {
+  --color-card: #5b21b6;
+  --primary-text: #f5f3ff;
+  --secondry-text: #c4b5fd;
+  --border-color: #ddd6fe;
+  --border-blue: #7c3aed;
+  --accent-color: #8b5cf6;
+  --hover-color: #6d28d9;
+}
+
+.indigo-theme {
+  --color-card: #4338ca;
+  --primary-text: #eef2ff;
+  --secondry-text: #c7d2fe;
+  --border-color: #cbd5e1;
+  --border-blue: #6366f1;
+  --accent-color: #6366f1;
+  --hover-color: #3730a3;
+}
+
+.teal-theme {
+  --color-card: #0f766e;
+  --primary-text: #f0fdfa;
+  --secondry-text: #5eead4;
+  --border-color: #ccfbf1;
+  --border-blue: #14b8a6;
+  --accent-color: #0d9488;
+  --hover-color: #0f5f59;
+}
+
+.amber-theme {
+  --color-card: #d97706;
+  --primary-text: #fffbeb;
+  --secondry-text: #fcd34d;
+  --border-color: #fde68a;
+  --border-blue: #f59e0b;
+  --accent-color: #f59e0b;
+  --hover-color: #b45309;
+}
+
+.rose-theme {
+  --color-card: #be123c;
+  --primary-text: #fff1f2;
+  --secondry-text: #fecdd3;
+  --border-color: #fecdd3;
+  --border-blue: #f43f5e;
+  --accent-color: #fb7185;
+  --hover-color: #9f1239;
+}
+
+.slate-theme {
+  --color-card: #334155;
+  --primary-text: #f1f5f9;
+  --secondry-text: #94a3b8;
+  --border-color: #475569;
+  --border-blue: #64748b;
+  --accent-color: #64748b;
+  --hover-color: #1e293b;
+}
+
+/* High-contrast cyber theme */
+.cyber-theme {
+  --color-card: #111827;
+  --primary-text: #e5e7eb;
+  --secondry-text: #67e8f9;
+  --border-color: #1e293b;
+  --border-blue: #06b6d4;
+  --accent-color: #06b6d4;
+  --hover-color: #0e7490;
 }

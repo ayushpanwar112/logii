@@ -37,7 +37,7 @@ export class Layout {
   }
 
   applyTheme() {
-    const themes = ['dark', 'light', 'pink', 'orange', 'green', 'gray', 'blue'];
+    const themes = ['dark','light','pink','orange','green','gray','blue','purple','indigo','teal','amber','rose','slate','cyber'];
     const body = document.body;
 
     // Remove old theme
