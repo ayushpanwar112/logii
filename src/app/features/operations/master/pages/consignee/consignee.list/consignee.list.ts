@@ -25,7 +25,17 @@ export class ConsigneeList {
   searchText: string = '';
   consigneeList: consigneeListClass = new consigneeListClass(); // to call api
   mode: string = 'LIST';
-  isFormOpen: boolean = false;
+  
+  private _isFormOpen: boolean = false;
+  get isFormOpen(): boolean { return this._isFormOpen; }
+  set isFormOpen(v: boolean) {
+    this._isFormOpen = v;
+    if (!v) {
+      // When the form closes, reset to create mode so next open is fresh
+      this.mode = 'CREATE';
+      this.selectedConsigneeForm = null;
+    }
+  }
   isFilterShow: boolean = false;
 
   // Column configuration for table + filter modal
@@ -98,7 +108,13 @@ export class ConsigneeList {
     return this.visibleColumns.size || 1; // fallback to 1 so table structure remains valid
   }
 
-  openForm(): void {
+  openForm(mode: 'CREATE' | 'EDIT' | 'VIEW' = 'CREATE', data?: any): void {
+    this.mode = mode;
+    if (mode === 'CREATE') {
+      this.selectedConsigneeForm = null;
+    } else if (data !== undefined) {
+      this.selectedConsigneeForm = data;
+    }
     this.isFormOpen = true;
   }
 
@@ -134,18 +150,27 @@ export class ConsigneeList {
     this.selectedConsigneeId = null;
   }
 
-  viewConsignee(id: string | number): void {
-    this.mode = 'VIEW';
+  viewNedit(id: number, mode: 'VIEW' | 'EDIT') {
     this.consigneeListService.viewConsigneeById(String(id)).subscribe({
       next: (response: any) => {
-        this.selectedConsigneeForm = response.city;
-        this.openForm();
+        this.openForm(mode, response.city);
       },
       error: (error) => {
         console.error('Error fetching consignee data:', error);
         alert('Error fetching consignee data: ' + (error?.message || 'Unknown error'));
       }
     });
+  }
+
+  viewConsignee(id: string | number): void {
+  this.mode = 'VIEW';
+  this.viewNedit(Number(id), 'VIEW');
+  
+  }
+  editConsignee(id: number): void {
+  this.mode = 'EDIT';
+  this.viewNedit(id, 'EDIT');
+ /*  */
   }
 
   cancelConsigneeRow(id: string | number, stscode: number): void {

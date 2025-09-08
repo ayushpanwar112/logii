@@ -22,6 +22,11 @@ private readonly http = inject(HttpClient);
     const headers = this.getHeaders();
     return this.http.post(`${this.baseUrl}/Consignee`, consigneeData, { headers });
   }
+   
+  updateConsigneeRow(id: number, consigneeData: ConsigneeFormInterface): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.put(`${this.baseUrl}/Consignee/${id}`, consigneeData, { headers });
+  }
 
   /**
    * Gets the list of consignees
@@ -116,6 +121,10 @@ private readonly http = inject(HttpClient);
     const headers = this.getHeaders();
     return this.http.get(`${this.baseUrl}/Consignee/Stats`, { headers });
   }
-  
+ getMobileNo(mobileNo:number):Observable<any>{
+    const headers = this.getHeaders();
+    const params = new HttpParams().set('MobileNo', mobileNo);
+    return this.http.get(`${this.baseUrl}/Consignee/GetConsigneeIdByMobileNo`, { headers, params });
+  }
 
 }

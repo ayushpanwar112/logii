@@ -22,10 +22,13 @@ export class ConsigneeDeleteModal {
     @Input() refreshFn!: () => void;
 
 
+
+
   constructor(private consgineeService:ConsigneeService) { }
 
   branchList: Branch[] = [];
 masterList: Master[] = [];
+modeText:string='Delete';
 
 reason:string='APPROVED DELETE';
 
@@ -55,6 +58,7 @@ SelectMode() {
   switch (this.typeofMode) {
     case 'CANCEL':
       console.log(this.consigneeId,"case");
+      this.modeText='Cancel';
       this.cancelConsignee.Id = this.consigneeId;
       this.cancelConsignee.Reason = this.reason;
       this.cancelConsignee.User='SYSTEM';
@@ -62,6 +66,7 @@ SelectMode() {
       break;
 
     case 'DELETE':
+      this.modeText='Delete';
       this.deleteConsignee.Id = this.consigneeId;
       this.deleteConsignee.Reason = this.reason;
       break;

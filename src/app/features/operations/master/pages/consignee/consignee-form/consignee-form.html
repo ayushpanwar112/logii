@@ -3,14 +3,18 @@
     <!-- HEADER -->
     <div class="form-header">
       <div class="header-title">
-        <i class="fas fa-user-plus header-icon"></i>
-        <h4>Create Consignee</h4>
+        <i class="bi bi-eye header-icon" *ngIf="isViewMode"></i>
+        <i class="bi bi-pencil-square header-icon" *ngIf="isEditMode"></i>
+        <i class="fas fa-user-plus header-icon" *ngIf="!isViewMode && !isEditMode"></i>
+        <h4>
+          {{ isViewMode ? 'View Consignee' : (isEditMode ? 'Edit Consignee' : 'Create Consignee') }}
+        </h4>
       </div>
       <i class="bi bi-x close-icon" (click)="closeBtn()"></i>
     </div>
 
     <!-- FORM -->
-    <form #consigneeForm="ngForm" (ngSubmit)="onSubmit(consigneeForm)" class="form-content">
+  <form #consigneeForm="ngForm" (ngSubmit)="onSubmit(consigneeForm)" class="form-content">
 
       <!-- BUSINESS DETAILS -->
       <div class="form-section shadow-sm border-line mb-3">
@@ -34,7 +38,7 @@
                   </span>
 
                   <!-- Input -->
-                  <input type="tel"
+        <input type="tel"
                          class="form-control"
                          name="mobile"
                          [(ngModel)]="consigneeFormData.cneMobileNo"
@@ -44,7 +48,8 @@
                          pattern="^[6-9][0-9]{9}$"
                          (keypress)="allowOnlyNumbers($event)"
                          placeholder="Mobile number"
-                         (keydown.enter)="focusNext($event)">
+                         (blur)="cpyFiled()"
+          (keydown.enter)="focusNext($event)" [disabled]="isViewMode">
 
                   <!-- Error icon (only shows when invalid) -->
                   @if (mobile.invalid && mobile.touched) {
@@ -57,10 +62,10 @@
                   }
 
                   <!-- Verify button -->
-                  <span type="button" 
+      <span type="button" 
                         class="btn btn-outline-success verify-btn" 
                         title="Verify"
-                        (click)="verifyMobile()">
+        (click)="verifyMobile()" [class.disabled]="isViewMode" [attr.aria-disabled]="isViewMode">
 
                     <!-- Verified (Success) -->
                     @if (isVerified === true) {
@@ -92,13 +97,13 @@
                   <span class="input-group-text bg-light">
                     <i class="fas fa-id-card text-primary"></i>
                   </span>
-                  <input type="text" class="form-control text-uppercase"
+        <input type="text" class="form-control text-uppercase"
                          name="pan"
                          (keydown.enter)="focusNext($event)"
                          [(ngModel)]="consigneeFormData.cnePan"
                          #pan="ngModel"
                          pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
-                         placeholder="PAN number">
+          placeholder="PAN number" [disabled]="isViewMode">
                   <span type="button" class="btn btn-outline-success verify-btn" title="Verify">
                     <i class="bi bi-shield-check"></i>
                   </span>
@@ -117,13 +122,13 @@
                   <span class="input-group-text bg-light">
                     <i class="fas fa-receipt text-primary"></i>
                   </span>
-                  <input type="text" class="form-control text-uppercase"
+        <input type="text" class="form-control text-uppercase"
                          name="gstin"
                          (keydown.enter)="focusNext($event)"
                          [(ngModel)]="consigneeFormData.cneGstIn"
                          maxlength="15"
                          pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
-                         placeholder="GSTIN">
+          placeholder="GSTIN" [disabled]="isViewMode">
                   <span type="button" class="btn btn-outline-success verify-btn" title="Verify GSTIN">
                     <i class="bi bi-shield-check"></i>
                   </span>
@@ -141,11 +146,11 @@
                   <span class="input-group-text bg-light">
                     <i class="fas fa-hashtag text-primary"></i>
                   </span>
-                  <input type="text" class="form-control"
+        <input type="text" class="form-control"
                          (keydown.enter)="focusNext($event)"
                          name="code"
                          [(ngModel)]="consigneeFormData.cneCode"
-                         placeholder="Customer code"
+          placeholder="Customer code" [disabled]="isViewMode"
                          maxlength="10">
                 </div>
               </div>
@@ -162,13 +167,13 @@
                   <span class="input-group-text bg-light">
                     <i class="fas fa-id-card text-primary"></i>
                   </span>
-                  <input type="text" class="form-control"
+        <input type="text" class="form-control"
                          name="name"
                          (keydown.enter)="focusNext($event)"
                          [(ngModel)]="consigneeFormData.cneName"
                          #name="ngModel"
                          required
-                         placeholder="Enter your Name">
+          placeholder="Enter your Name" [disabled]="isViewMode">
                   @if (name.invalid && name.touched) {
                     <span class="input-group-text text-danger"
                           data-toggle="tooltip"
@@ -191,12 +196,12 @@
           <div class="col-1"></div>
           <div class="col-7">
             <div class="form-check-custom">
-              <input class="form-check-input"
+    <input class="form-check-input"
                      type="checkbox"
                      id="billingParty"
                      name="billingParty"
                      [(ngModel)]="consigneeFormData.cneCreateAcm"
-                     (keydown.enter)="focusNext($event)">
+      (keydown.enter)="focusNext($event)" [disabled]="isViewMode">
               <label class="form-check-label" for="billingParty">
                 <i class="fas fa-file-invoice me-1"></i> Use as Billing Party
               </label>
@@ -220,14 +225,14 @@
               <label class="form-label col-1 mb-0 d-flex">Address <span class="text-danger">*</span></label>
               <div class="col-11">
                 <div class="input-group input-group-sm">
-                  <input type="text"
+        <input type="text"
                          class="form-control"
                          name="address"
                          [(ngModel)]="consigneeFormData.cneAddress"
                          #address="ngModel"
                          (keydown.enter)="focusNext($event)"
                          required
-                         placeholder="Complete address">
+          placeholder="Complete address" [disabled]="isViewMode">
 
                   @if (address.invalid && address.touched) {
                     <span class="input-group-text text-danger"
@@ -248,13 +253,13 @@
               <label class="form-label col-2 mb-0">City <span class="text-danger">*</span></label>
               <div class="col-10">
                 <div class="input-group input-group-sm">
-                  <select class="form-control form-control-sm"
+      <select class="form-control form-control-sm"
                           name="city"
                           [(ngModel)]="consigneeFormData.cneCtyId"
                           #city="ngModel"
                           (keydown.enter)="focusNext($event)"
                           required
-                          aria-label="Choose a city">
+        aria-label="Choose a city" [disabled]="isViewMode">
                     <option value="0">Select City</option>
                     <option value="1">Mumbai</option>
                     <option value="2">Delhi</option>
@@ -280,14 +285,14 @@
               <label class="form-label col-2 mb-0">PIN</label>
               <div class="col-10">
                 <div class="input-group input-group-sm">
-                  <input type="text" maxlength="6"
+        <input type="text" maxlength="6"
                          class="form-control"
                          name="pinCode"
                          (keydown.enter)="focusNext($event)"
                          [(ngModel)]="consigneeFormData.cnePinCode"
                          #pinCode="ngModel"
                          (keypress)="allowOnlyNumbers($event)"
-                         placeholder="PIN code">
+          placeholder="PIN code" [disabled]="isViewMode">
                   <span type="button" class="btn btn-outline-success verify-btn" title="Verify PIN">
                     <i class="bi bi-shield-check"></i>
                   </span>
@@ -302,11 +307,11 @@
               <label class="col-2 mb-0 form-label">State</label>
               <div class="col-10">
                 <div class="input-group input-group-sm">
-                  <select class="form-control form-control-sm"
+      <select class="form-control form-control-sm"
                           name="state"
                           (keydown.enter)="focusNext($event)"
                           [(ngModel)]="consigneeFormData.cneStaId"
-                          aria-label="Choose a state">
+        aria-label="Choose a state" [disabled]="isViewMode">
                     <option value="0">Select State</option>
                     <option value="1">Maharashtra</option>
                     <option value="2">Delhi</option>
@@ -324,11 +329,11 @@
               <label class="col-2 mb-0 form-label">Country</label>
               <div class="col-10">
                 <div class="input-group input-group-sm">
-                  <select class="form-control form-control-sm"
+      <select class="form-control form-control-sm"
                           name="country"
                           (keydown.enter)="focusNext($event)"
                           [(ngModel)]="consigneeFormData.cneCntId"
-                          aria-label="Choose a country">
+        aria-label="Choose a country" [disabled]="isViewMode">
                     <option value="0">India</option>
                     <option value="1">United States</option>
                     <option value="2">United Kingdom</option>
@@ -357,12 +362,12 @@
                   <span class="input-group-text bg-light">
                     <i class="bi bi-person-lines-fill text-primary"></i>
                   </span>
-                  <input type="text"
+        <input type="text"
                          class="form-control"
                          name="contact"
                          [(ngModel)]="consigneeFormData.cneContactPerson"
                          placeholder="Contact person name"
-                         (keydown.enter)="focusNext($event)">
+          (keydown.enter)="focusNext($event)" [disabled]="isViewMode">
                 </div>
               </div>
             </div>
@@ -377,12 +382,12 @@
                   <span class="input-group-text bg-light">
                     <i class="bi bi-telephone text-primary"></i>
                   </span>
-                  <input type="tel" class="form-control" placeholder="Landline number"
+        <input type="tel" class="form-control" placeholder="Landline number"
                          (keydown.enter)="focusNext($event)"
                          name="landline"
                          maxlength="25"
                          [(ngModel)]="consigneeFormData.cnePhoneNo"
-                         (keypress)="allowOnlyNumbers($event)">
+          (keypress)="allowOnlyNumbers($event)" [disabled]="isViewMode">
                 </div>
               </div>
             </div>
@@ -397,12 +402,12 @@
                   <span class="input-group-text bg-light">
                     <i class="bi bi-envelope-fill text-primary"></i>
                   </span>
-                  <input type="email"
+        <input type="email"
                          class="form-control"
                          name="email"
                          [(ngModel)]="consigneeFormData.cneEmail"
                          placeholder="Email address"
-                         (keydown.enter)="focusNext($event)">
+          (keydown.enter)="focusNext($event)" [disabled]="isViewMode">
                   <span type="button" class="btn btn-outline-success verify-btn" title="Verify">
                     <i class="bi bi-shield-check"></i>
                   </span>
@@ -420,12 +425,12 @@
                   <span class="input-group-text bg-light">
                     <i class="bi bi-whatsapp text-success"></i>
                   </span>
-                  <input type="tel" class="form-control" placeholder="WhatsApp" 
+        <input type="tel" class="form-control" placeholder="WhatsApp" 
                          (keydown.enter)="focusNext($event)" 
                          name="whatsapp"
                          [(ngModel)]="consigneeFormData.cneWhatsApp"
                          (keypress)="allowOnlyNumbers($event)"
-                         maxlength="10">
+          maxlength="10" [disabled]="isViewMode">
                   <span type="button" class="btn btn-outline-success verify-btn" title="Verify">
                     <i class="bi bi-shield-check"></i>
                   </span>
@@ -452,7 +457,7 @@
                       (keydown.enter)="focusNext($event)"
                       [(ngModel)]="consigneeFormData.cneRemarks"
                       rows="1"
-                      placeholder="Additional remarks or notes..."></textarea>
+                      placeholder="Additional remarks or notes..." [disabled]="isViewMode"></textarea>
           </div>
         </div>
       </div>
@@ -462,7 +467,7 @@
         <button type="button" class="btn btn-outline-danger btn-sm" (click)="closeBtn()">
           <i class="fas fa-times me-1"></i> Close <span class="shortcut">Esc</span>
         </button>
-        <button type="submit" class="btn btn-primary btn-sm" [disabled]="consigneeForm.invalid">
+        <button *ngIf="!isViewMode" type="submit" class="btn btn-primary btn-sm" [disabled]="consigneeForm.invalid">
           <i class="fas fa-save me-1"></i> Submit <span class="shortcut">F10</span>
         </button>
       </div>

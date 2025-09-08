@@ -16,7 +16,7 @@ export class ConsigneeFormComponent implements OnInit {
   @Output() openbtnChange = new EventEmitter<boolean>();
   @Input() selectedConsignee: any; // to receive data from parent component
   @Output() refreshList = new EventEmitter<void>();
-@Input() modeType!:string; // to differentiate between add and edit mode
+  @Input() modeType!: string; // 'VIEW' disables form and hides submit
   consigneeFormData: ConsigneeFormClass = new ConsigneeFormClass();
   isVerified: boolean | null = null;
 
@@ -67,13 +67,61 @@ export class ConsigneeFormComponent implements OnInit {
     }
   }
 
+  get isViewMode(): boolean {
+    return (this.modeType || '').toUpperCase() === 'VIEW';
+  }
+
+  get isEditMode(): boolean {
+    return (this.modeType || '').toUpperCase() === 'EDIT';
+  }
+
+   get isCreateMode(): boolean {
+    return !this.isViewMode && !this.isEditMode;
+  }
+
+  cpyFiled(){
+  
+    this.consigneeService.getMobileNo(Number(this.consigneeFormData.cneMobileNo)).subscribe({
+      next:(res:any)=>{
+      //  console.log('Response from getMobileNo:', res);
+        if(res.Id==0)
+        {
+          console.log('No existing consignee found with this mobile number.');
+        }
+        else{
+          console.log('Existing consignee found:', res);
+        }
+  }})
+    
+  }
+
   closeBtn(): void {
     this.openbtn = false;
     this.openbtnChange.emit(this.openbtn);
   }
 
   onSubmit(form: any): void {
-    if (form.valid) {
+    if (this.isViewMode) {
+      return; // do not submit in view mode
+    }
+     if(this.isEditMode && form.valid){
+    this.consigneeService.updateConsigneeRow(this.consigneeFormData.cneId!, this.consigneeFormData).subscribe({
+      next:(res:any)=>{
+        console.log('Consignee updated successfully:', res);
+         this.openbtn = false;
+          this.openbtnChange.emit(this.openbtn);
+          form.resetForm(); // Reset after save
+          this.refreshList.emit(); // Notify parent to refresh the list
+      },
+      error:(error)=>{
+        console.error('Error updating consignee:',error);
+        alert('Error updating consignee: '+(error?.message || 'Unknown error'));
+      }
+    })
+
+     }
+
+    if (form.valid && this.isCreateMode) {
       this.consigneeService.createConsignee(this.consigneeFormData).subscribe({
         next: (response) => {
           console.log('Consignee created successfully:', response);
@@ -118,8 +166,9 @@ export class ConsigneeFormComponent implements OnInit {
     }
     if (event.key === 'F10') {
       event.preventDefault();
-      const formElement = document.querySelector('form') as HTMLFormElement;
-      if (formElement) formElement.requestSubmit();
+  if (this.isViewMode) return;
+  const formElement = document.querySelector('form') as HTMLFormElement;
+  if (formElement) formElement.requestSubmit();
     }
   }
 
