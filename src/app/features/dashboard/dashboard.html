@@ -1,0 +1,100 @@
+<div class="container-fluid dashboard-wrapper">
+  <div class="row g-3">
+    <!-- History Cards -->
+    <div class="col-md-3" *ngFor="let card of historyCards">
+      <div class="card summary-card text-center">
+        <div class="card-body">
+          <h4 class="value">₹{{ card.value }}</h4>
+          <p class="label">{{ card.label }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visitor Insights Chart -->
+    <div class="col-md-12 col-lg-6">
+      <div class="card chart-card">
+        <div class="card-body">
+          <canvas baseChart
+            [datasets]="visitorChartData"
+            [labels]="visitorChartLabels"
+            [options]="chartOptions"
+           
+            [legend]="true"
+            chartType="line">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue & Purchase Charts -->
+    <div class="col-md-6">
+      <div class="card chart-card">
+        <div class="card-body">
+          <h5>Total Revenue</h5>
+          <canvas baseChart
+            [datasets]="revenueData"
+            [labels]="days"
+            chartType="bar">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card chart-card">
+        <div class="card-body">
+          <h5>Net Purchase</h5>
+          <canvas baseChart
+            [datasets]="netPurchaseData"
+            [labels]="days"
+            chartType="line">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow Chart -->
+    <div class="col-md-12 col-lg-4">
+      <div class="card chart-card">
+        <div class="card-body">
+          <h5>Flow Chart</h5>
+          <canvas baseChart
+            [datasets]="flowChartData"
+            [labels]="months"
+            chartType="bar">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Products -->
+    <div class="col-md-6">
+      <div class="card table-card">
+        <div class="card-body">
+          <h5>Top Products</h5>
+          <table class="table table-borderless">
+            <tr *ngFor="let item of topProducts">
+              <td>{{ item.name }}</td>
+              <td class="text-end">₹{{ item.sales }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outstanding -->
+    <div class="col-md-6">
+      <div class="card table-card">
+        <div class="card-body">
+          <h5>Outstanding</h5>
+          <table class="table table-borderless">
+            <tr *ngFor="let item of outstanding">
+              <td>{{ item.name }}</td>
+              <td class="text-end">₹{{ item.sales }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
