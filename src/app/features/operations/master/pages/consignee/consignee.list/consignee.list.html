@@ -41,75 +41,85 @@
         <table class="table table-bordered challan-table">
           <thead>
             <tr>
-              <th class="text-right">Sr. No.</th>
-              <th class="text-right">Regd. Mobile No.</th>
-              <th>GSTIN</th>
-              <th>Name</th>
-              <th>Code</th>
-              <th>City</th>
-              <th class="text-right">PIN</th>
-              <th>State</th>
-              <th>Country</th>
-              <th>Status</th>
-              <th class="text-center">Action</th>
+              @if (isColVisible('sr')) { <th class="text-right">Sr. No.</th> }
+              @if (isColVisible('mobile')) { <th class="text-right">Regd. Mobile No.</th> }
+              @if (isColVisible('gstin')) { <th>GSTIN</th> }
+              @if (isColVisible('name')) { <th>Name</th> }
+              @if (isColVisible('code')) { <th>Code</th> }
+              @if (isColVisible('city')) { <th>City</th> }
+              @if (isColVisible('pin')) { <th class="text-right">PIN</th> }
+              @if (isColVisible('state')) { <th>State</th> }
+              @if (isColVisible('country')) { <th>Country</th> }
+              @if (isColVisible('whatsapp')) { <th>Whatsapp</th> }
+              @if (isColVisible('pan')) { <th>PAN</th> }
+              @if (isColVisible('phone')) { <th>Phone</th> }
+              @if (isColVisible('email')) { <th>Email</th> }
+              @if (isColVisible('contact')) { <th>Contact Person</th> }
+              @if (isColVisible('address')) { <th>Address</th> }
+              @if (isColVisible('editedUser')) { <th>Edited User</th> }
+              @if (isColVisible('createdBy')) { <th>Created By</th> }
+              @if (isColVisible('editedDate')) { <th>Edited Date</th> }
+              @if (isColVisible('createdDate')) { <th>Created Date</th> }
+              @if (isColVisible('status')) { <th>Status</th> }
+              @if (isColVisible('action')) { <th class="text-center">Action</th> }
             </tr>
           </thead>
           <tbody>
             @for (c of consogneeListApiData; track c.Id; let i = $index) {
               <tr>
-                <td class="text-right">{{ i + 1 }}</td>
-                <td class="text-right">{{ c.MobileNo }}</td>
-                @if (c.Gstin) {
-                  <td>
-                    <span class="gstin-badge">{{ c.Gstin }}</span>
-                  </td>
-                } @else {
-                  <td></td>
+                @if (isColVisible('sr')) { <td class="text-right">{{ i + 1 }}</td> }
+                @if (isColVisible('mobile')) { <td class="text-right">{{ c.MobileNo }}</td> }
+                @if (isColVisible('gstin')) {
+                  <td>@if (c.Gstin) { <span class="gstin-badge">{{ c.Gstin }}</span> }</td>
                 }
-                <td>{{ c.Name }}</td>
-                <td>{{ c.Code }}</td>
-                <td>{{ c.City }}</td>
-                <td class="text-right">{{ c.Pincode }}</td>
-                <td>{{ c.State }}</td>
-                <td>{{ c.Country }}</td>
-                <td>
-                  <span
-                    class="status-badge"
-                    [ngClass]="{
-                      'confirmed': c.Stscode === 1,
-                      'cancelled': c.Stscode === 2,
-                      'locked': c.Stscode !== 1 && c.Stscode !== 2
-                    }"
-                  >
-                    @if (c.Stscode === 1) {
-                      <i class="bi bi-check-circle-fill mr-1" aria-hidden="true"></i>
-                    } @else if (c.Stscode === 2) {
-                      <i class="bi bi-x-circle-fill mr-1" aria-hidden="true"></i>
-                    } @else {
-                      <i class="bi bi-lock-fill mr-1" aria-hidden="true"></i>
-                    }
-                    {{ c.Stscode === 1 ? 'Confirmed' : (c.Stscode === 2 ? 'Cancelled' : 'Locked') }}
-                  </span>
-                </td>
-                <td class="text-center">
-                  <span class="action-btn view" title="View" (click)="viewConsignee(c.Id)">
-                    <i class="bi bi-eye"></i>
-                  </span>
-                  <span class="action-btn edit" title="Edit">
-                    <i class="bi bi-pencil"></i>
-                  </span>
-                  <span class="action-btn delete" title="Delete" (click)="openDeleteModal(c.Id)">
-                    <i class="bi bi-trash"></i>
-                  </span>
-                  <span class="action-btn cancel" title="Cancel" (click)="cancelConsigneeRow(c.Id, c.Stscode)">
-                    <i class="bi bi-x-circle"></i>
-                  </span>
-                </td>
+                @if (isColVisible('name')) { <td>{{ c.Name }}</td> }
+                @if (isColVisible('code')) { <td>{{ c.Code }}</td> }
+                @if (isColVisible('city')) { <td>{{ c.City }}</td> }
+                @if (isColVisible('pin')) { <td class="text-right">{{ c.Pincode }}</td> }
+                @if (isColVisible('state')) { <td>{{ c.State }}</td> }
+                @if (isColVisible('country')) { <td>{{ c.Country }}</td> }
+                @if (isColVisible('whatsapp')) { <td>{{ c.Whatsapp }}</td> }
+                @if (isColVisible('pan')) { <td>{{ c.PAN }}</td> }
+                @if (isColVisible('phone')) { <td>{{ c.Phone }}</td> }
+                @if (isColVisible('email')) { <td>{{ c.Email }}</td> }
+                @if (isColVisible('contact')) { <td>{{ c.Contact }}</td> }
+                @if (isColVisible('address')) { <td>{{ c.Address }}</td> }
+                @if (isColVisible('editedUser')) { <td>{{ c.Moduser }}</td> }
+                @if (isColVisible('createdBy')) { <td>{{ c.Adduser }}</td> }
+                @if (isColVisible('editedDate')) { <td>{{ c.Moddate | date:'yyyy-MM-dd HH:mm' }}</td> }
+                @if (isColVisible('createdDate')) { <td>{{ c.Adddate | date:'yyyy-MM-dd HH:mm' }}</td> }
+                @if (isColVisible('status')) { 
+                  <td>
+                    <span class="status-badge"
+                      [ngClass]="{ 'confirmed': c.Stscode === 1, 'cancelled': c.Stscode === 2, 'locked': c.Stscode !== 1 && c.Stscode !== 2 }">
+                      @if (c.Stscode === 1) { <i class="bi bi-check-circle-fill mr-1" aria-hidden="true"></i> }
+                      @else if (c.Stscode === 2) { <i class="bi bi-x-circle-fill mr-1" aria-hidden="true"></i> }
+                      @else { <i class="bi bi-lock-fill mr-1" aria-hidden="true"></i> }
+                      {{ c.Stscode === 1 ? 'Confirmed' : (c.Stscode === 2 ? 'Cancelled' : 'Locked') }}
+                    </span>
+                  </td>
+                }
+                @if (isColVisible('action')) { 
+                  <td class="text-center">
+                    <span class="action-btn view" title="View" (click)="viewConsignee(c.Id)">
+                      <i class="bi bi-eye"></i>
+                    </span>
+                    <span class="action-btn edit" title="Edit">
+                      <i class="bi bi-pencil"></i>
+                    </span>
+                    <span class="action-btn delete" title="Delete" (click)="openDeleteModal(c.Id)">
+                      <i class="bi bi-trash"></i>
+                    </span>
+                    <span class="action-btn cancel" title="Cancel" (click)="cancelConsigneeRow(c.Id, c.Stscode)">
+                      <i class="bi bi-x-circle"></i>
+                    </span>
+                  </td>
+                }
               </tr>
             }
             @for (e of getEmptyRows(); track $index) {
               <tr>
-                <td colspan="11">&nbsp;</td>
+                <td [attr.colspan]="getVisibleColumnCount()">&nbsp;</td>
               </tr>
             }
           </tbody>
@@ -158,6 +168,7 @@
   @if (isFormOpen) {
     <app-consignee-form
       [(openbtn)]="isFormOpen" 
+      [modeType]="mode"
       [selectedConsignee]="selectedConsigneeForm" 
       (refreshList)="getList()">
     </app-consignee-form>
@@ -165,7 +176,11 @@
 
   @if (isFilterShow) {
     <div class="filter-container">
-      <app-consignee-filter-modal (toggleFilter)="openFilter()"></app-consignee-filter-modal>
+      <app-consignee-filter-modal 
+        [columns]="columns"
+        [active]="visibleColumns"
+        (applyColumns)="onApplyColumns($event)"
+        (toggleFilter)="openFilter()"></app-consignee-filter-modal>
       
     </div>
   }

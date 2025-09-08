@@ -28,9 +28,51 @@ export class ConsigneeList {
   isFormOpen: boolean = false;
   isFilterShow: boolean = false;
 
+  // Column configuration for table + filter modal
+  columns = [
+    { key: 'sr', label: 'Sr. No.', default: true },
+    { key: 'mobile', label: 'Regd. Mobile No.', default: true },
+    { key: 'gstin', label: 'GSTIN', default: true },
+    { key: 'name', label: 'Name', default: true },
+    { key: 'code', label: 'Code', default: true },
+    { key: 'city', label: 'City', default: true },
+    { key: 'pin', label: 'PIN', default: true },
+    { key: 'state', label: 'State', default: true },
+    { key: 'country', label: 'Country', default: true },
+    { key: 'whatsapp', label: 'Whatsapp', default: false, field: 'Whatsapp' },
+    { key: 'pan', label: 'PAN', default: false, field: 'PAN' },
+    { key: 'phone', label: 'Phone', default: false, field: 'Phone' },
+    { key: 'email', label: 'Email', default: false, field: 'Email' },
+    { key: 'contact', label: 'Contact Person', default: false, field: 'Contact' },
+    { key: 'address', label: 'Address', default: false, field: 'Address' },
+    { key: 'editedUser', label: 'Edited User', default: false, field: 'Moduser' },
+    { key: 'createdBy', label: 'Created By', default: false, field: 'Adduser' },
+    { key: 'editedDate', label: 'Edited Date', default: false, field: 'Moddate', type: 'date' },
+    { key: 'createdDate', label: 'Created Date', default: false, field: 'Adddate', type: 'date' },
+    { key: 'status', label: 'Status', default: true },
+    { key: 'action', label: 'Action', default: true }
+  ];
+
+  // Active visible columns set
+  visibleColumns: Set<string> = new Set();
+
   constructor(private consigneeListService: ConsigneeService) { }
 
   ngOnInit(): void {
+    // Attempt to load persisted column visibility
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('consignee.visibleColumns') : null;
+    if (stored) {
+      try {
+        const arr: string[] = JSON.parse(stored);
+        arr.forEach(k => this.visibleColumns.add(k));
+      } catch {
+        // fallback to defaults if parse fails
+        this.columns.filter(c => c.default).forEach(c => this.visibleColumns.add(c.key));
+      }
+    } else {
+      // initialize visible columns to defaults when nothing stored
+      this.columns.filter(c => c.default).forEach(c => this.visibleColumns.add(c.key));
+    }
     this.getList();
   }
 
@@ -51,12 +93,27 @@ export class ConsigneeList {
     return Array(toFill > 0 ? toFill : 0);
   }
 
+  // Total number of currently visible columns (used for empty filler row colspan)
+  getVisibleColumnCount(): number {
+    return this.visibleColumns.size || 1; // fallback to 1 so table structure remains valid
+  }
+
   openForm(): void {
     this.isFormOpen = true;
   }
 
   openFilter(): void {
     this.isFilterShow = !this.isFilterShow;
+  }
+
+  onApplyColumns(keys: string[]) {
+    this.visibleColumns = new Set(keys);
+  this.saveVisibleColumns();
+    this.isFilterShow = false;
+  }
+
+  isColVisible(key: string): boolean {
+    return this.visibleColumns.has(key);
   }
 
   resetSearch(): void {
@@ -106,6 +163,14 @@ export class ConsigneeList {
     if (event.key === 'F1') {
       event.preventDefault(); // stops browser help from opening
       this.openForm();
+    }
+  }
+
+  private saveVisibleColumns(): void {
+    try {
+      localStorage.setItem('consignee.visibleColumns', JSON.stringify(Array.from(this.visibleColumns)));
+    } catch {
+      // ignore persistence errors
     }
   }
 

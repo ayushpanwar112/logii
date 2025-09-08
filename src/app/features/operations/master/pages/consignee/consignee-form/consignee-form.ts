@@ -16,7 +16,7 @@ export class ConsigneeFormComponent implements OnInit {
   @Output() openbtnChange = new EventEmitter<boolean>();
   @Input() selectedConsignee: any; // to receive data from parent component
   @Output() refreshList = new EventEmitter<void>();
-
+@Input() modeType!:string; // to differentiate between add and edit mode
   consigneeFormData: ConsigneeFormClass = new ConsigneeFormClass();
   isVerified: boolean | null = null;
 

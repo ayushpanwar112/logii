@@ -45,13 +45,10 @@
       <div class="columns-section">
         <label class="block-label mb-2">Toggle Columns</label>
         <div class="columns-grid">
-          @for (item of [
-            'Whatsapp No.','State','PIN','Name','GSTIN','Edited User','Created Date','Country','Code','Address',
-            'Status','Regd. Mobile No.','PAN','Lanline','Email ID','Edited Date','Created By','Contact Person','City','Action'
-          ]; track item) {
+          @for (col of columns; track col.key) {
             <label class="chk-item">
-              <input type="checkbox" checked />
-              <span>{{ item }}</span>
+              <input type="checkbox" [checked]="isChecked(col.key)" (change)="toggleColumn(col.key)" />
+              <span>{{ col.label }}</span>
             </label>
           }
         </div>
@@ -65,12 +62,8 @@
         </button>
       </div>
       <div class="right-actions">
-        <button class="btn-soft secondary me-2">
-          <i class="bi bi-arrow-clockwise"></i><span>Reset</span>
-        </button>
-        <button class="btn-soft primary">
-          <i class="bi bi-check-circle"></i><span>Apply</span>
-        </button>
+  <button class="btn-soft secondary me-2" (click)="reset()"><i class="bi bi-arrow-clockwise"></i><span>Reset</span></button>
+  <button class="btn-soft primary" (click)="apply()"><i class="bi bi-check-circle"></i><span>Apply</span></button>
       </div>
     </footer>
   </div>
