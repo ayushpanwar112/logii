@@ -1,0 +1,49 @@
+.dashboard-wrapper {
+  background: #f7f7fc;
+  padding: 24px;
+}
+
+.summary-card {
+  background: #f5f5fa;
+  border-left: 5px solid #00bcd4;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  box-shadow: 0px 2px 8px 0 rgba(0, 44, 109, 0.01);
+  .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #22223b;
+  }
+  .label {
+    font-size: 13px;
+    color: #555;
+    margin-top: 8px;
+  }
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 18px 10px 24px 10px;
+  margin-bottom: 18px;
+  min-height: 250px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 14px 10px 24px 10px;
+}
+
+.table td {
+  font-size: 14px;
+  border: none;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}

@@ -55,55 +55,55 @@ export class Sidebar implements OnInit {
           name: 'Users & Rights',
           expanded: true,
           subItems: [
-            { name: 'Traffic Overview', route: '/analytics/traffic' },
-            { name: 'Revenue Reports', route: '/analytics/revenue' },
-            { name: 'User Behavior', route: '/analytics/behavior' },
-            { name: 'Conversion Metrics', route: '/analytics/conversion' }
+            { name: 'Traffic Overview' },
+            { name: 'Revenue Reports' },
+            { name: 'User Behavior' },
+            { name: 'Conversion Metrics' }
           ]
         },
         {
           name: 'Settings',
           expanded: false,
           subItems: [
-            { name: 'Live Users', route: '/realtime/users' },
-            { name: 'Active Sessions', route: '/realtime/sessions' },
-            { name: 'Live Events', route: '/realtime/events' }
+            { name: 'Live Users' },
+            { name: 'Active Sessions' },
+            { name: 'Live Events' }
           ]
         },
         {
           name: 'Templates',
           expanded: false,
           subItems: [
-            { name: 'Weekly Reports', route: '/reports/weekly' },
-            { name: 'Monthly Reports', route: '/reports/monthly' },
-            { name: 'Custom Reports', route: '/reports/custom' }
+            { name: 'Weekly Reports' },
+            { name: 'Monthly Reports' },
+            { name: 'Custom Reports' }
           ]
         },
         {
           name: 'Notification Settings',
           expanded: false,
           subItems: [
-            { name: 'Weekly Reports', route: '/reports/weekly' },
-            { name: 'Monthly Reports', route: '/reports/monthly' },
-            { name: 'Custom Reports', route: '/reports/custom' }
+            { name: 'Weekly Reports' },
+            { name: 'Monthly Reports' },
+            { name: 'Custom Reports' }
           ]
         },
         {
           name: 'Designer',
           expanded: false,
           subItems: [
-            { name: 'Weekly Reports', route: '/reports/weekly' },
-            { name: 'Monthly Reports', route: '/reports/monthly' },
-            { name: 'Custom Reports', route: '/reports/custom' }
+            { name: 'Weekly Reports' },
+            { name: 'Monthly Reports' },
+            { name: 'Custom Reports' }
           ]
         },
         {
           name: 'Reports',
           expanded: false,
           subItems: [
-            { name: 'Weekly Reports', route: '/reports/weekly' },
-            { name: 'Monthly Reports', route: '/reports/monthly' },
-            { name: 'Custom Reports', route: '/reports/custom' }
+            { name: 'Weekly Reports' },
+            { name: 'Monthly Reports' },
+            { name: 'Custom Reports' }
           ]
         }
       ]
@@ -116,43 +116,43 @@ export class Sidebar implements OnInit {
           name: 'Masters',
           expanded: true,
           subItems: [
-            { name: 'Consignee', route: '/operations/master/consignee', active: true, enabled: true },
-            { name: 'Billing Party', route: '/operations/master/billing-party', enabled: false },
-            { name: 'Transporter', route: '/operations/master/transporter', enabled: false },
-            { name: 'Vehicle', route: '/operations/master/vehicle', enabled: false },
-            { name: 'Vehicle Make', route: '/operations/master/vehicle-make', enabled: false },
-            { name: 'Vehicle Model', route: '/operations/master/vehicle-model', enabled: false },
-            { name: 'Driver', route: '/operations/master/driver', enabled: false },
-            { name: 'Employee', route: '/operations/master/employee', enabled: false },
-            { name: 'Content', route: '/operations/master/content', enabled: false },
-            { name: 'Load Capacity', route: '/operations/master/load-capacity', enabled: false }
+            { name: 'Consignee', active: true, enabled: true },
+            { name: 'Billing Party', enabled: false },
+            { name: 'Transporter', enabled: false },
+            { name: 'Vehicle', enabled: false },
+            { name: 'Vehicle Make', enabled: false },
+            { name: 'Vehicle Model', enabled: false },
+            { name: 'Driver', enabled: false },
+            { name: 'Employee', enabled: false },
+            { name: 'Content', enabled: false },
+            { name: 'Load Capacity', enabled: false }
           ]
         },
         {
           name: 'Master Reports',
           expanded: false,
           subItems: [
-            { name: 'User Roles', route: '/permissions/roles' },
-            { name: 'Access Control', route: '/permissions/access' },
-            { name: 'Admin Rights', route: '/permissions/admin' }
+            { name: 'User Roles' },
+            { name: 'Access Control' },
+            { name: 'Admin Rights' }
           ]
         },
         {
           name: 'Contracts',
           expanded: false,
           subItems: [
-            { name: 'Login History', route: '/activity/login' },
-            { name: 'Action Logs', route: '/activity/actions' },
-            { name: 'Security Events', route: '/activity/security' }
+            { name: 'Login History' },
+            { name: 'Action Logs' },
+            { name: 'Security Events' }
           ]
         },
         {
           name: 'Transportations',
           expanded: false,
           subItems: [
-            { name: 'Login History', route: '/activity/login' },
-            { name: 'Action Logs', route: '/activity/actions' },
-            { name: 'Security Events', route: '/activity/security' }
+            { name: 'Login History' },
+            { name: 'Action Logs' },
+            { name: 'Security Events' }
           ]
         }
       ]
@@ -165,18 +165,18 @@ export class Sidebar implements OnInit {
           name: 'Performance',
           expanded: false,
           subItems: [
-            { name: 'Page Speed', route: '/performance/speed' },
-            { name: 'Load Times', route: '/performance/load' },
-            { name: 'Error Rates', route: '/performance/errors' }
+            { name: 'Page Speed' },
+            { name: 'Load Times' },
+            { name: 'Error Rates' }
           ]
         },
         {
           name: 'SEO Analytics',
           expanded: false,
           subItems: [
-            { name: 'Keywords', route: '/seo/keywords' },
-            { name: 'Backlinks', route: '/seo/backlinks' },
-            { name: 'Rankings', route: '/seo/rankings' }
+            { name: 'Keywords' },
+            { name: 'Backlinks' },
+            { name: 'Rankings' }
           ]
         }
       ]
@@ -189,27 +189,27 @@ export class Sidebar implements OnInit {
           name: 'General Settings',
           expanded: false,
           subItems: [
-            { name: 'Site Configuration', route: '/settings/site' },
-            { name: 'Appearance', route: '/settings/appearance' },
-            { name: 'Localization', route: '/settings/locale' }
+            { name: 'Site Configuration' },
+            { name: 'Appearance' },
+            { name: 'Localization' }
           ]
         },
         {
           name: 'Security',
           expanded: false,
           subItems: [
-            { name: 'Authentication', route: '/security/auth' },
-            { name: 'SSL Settings', route: '/security/ssl' },
-            { name: 'Backup Settings', route: '/security/backup' }
+            { name: 'Authentication' },
+            { name: 'SSL Settings' },
+            { name: 'Backup Settings' }
           ]
         },
         {
           name: 'Integrations',
           expanded: false,
           subItems: [
-            { name: 'API Keys', route: '/integrations/api' },
-            { name: 'Third-party Services', route: '/integrations/services' },
-            { name: 'Webhooks', route: '/integrations/webhooks' }
+            { name: 'API Keys' },
+            { name: 'Third-party Services' },
+            { name: 'Webhooks' }
           ]
         }
       ]
