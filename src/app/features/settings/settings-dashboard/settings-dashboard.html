@@ -1,0 +1,142 @@
+<div class="settings-dashboard">
+	<div class="cards">
+		@for (k of kpis; track k.title; let i = $index) {
+			<div class="kpi-card" [class.blue]="k.variant==='blue'" [class.pink]="k.variant==='pink'" [class.orange]="k.variant==='orange'">
+				<div class="top">
+					<div class="amount">${{ k.amount | number: '1.0-0' }}</div>
+					<div class="label">
+						<span class="accent">{{ split(k.title).first }}</span> {{ split(k.title).rest }}
+					</div>
+				</div>
+				<div class="chart">
+							<svg [attr.viewBox]="'0 0 320 120'" preserveAspectRatio="none" aria-hidden="true">
+								<path class="area" [attr.d]="buildAreaPath(k.data)"></path>
+								<path class="line" [attr.d]="buildLinePath(k.data)" pathLength="1"></path>
+								@if (lastPoint(k.data); as p) {
+									<circle class="dot" [attr.cx]="p.x" [attr.cy]="p.y" r="3.5"></circle>
+								}
+							</svg>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<div class="panel reveal">
+	<div class="panel-header">
+	<h3><i class="bi bi-envelope-paper me-2"></i>Email sent</h3>
+	</div>
+	<div class="panel-legend">
+		<div class="chip">
+			<span class="swatch swatch-blue"></span>
+			<span>Actual Sales</span>
+		</div>
+		<div class="chip">
+			<span class="swatch swatch-pink"></span>
+			<span>Target Sales</span>
+		</div>
+		<div class="chip">
+			<span class="swatch swatch-green dashed"></span>
+			<span>Market Days</span>
+		</div>
+		<div class="chip">
+			<span class="swatch swatch-amber"></span>
+			<span>Projected</span>
+		</div>
+	</div>
+		<div class="panel-chart">
+		<canvas baseChart [data]="salesData" [options]="salesOptions" [type]="'bar'"></canvas>
+	</div>
+</div>
+
+	<!-- Traffic + Reviews Row -->
+	<div class="row two-cols">
+			<div class="col">
+				<div class="panel reveal">
+				<div class="panel-header"><h3><i class="bi bi-graph-up-arrow me-2"></i>Traffic resources</h3></div>
+						<div class="traffic">
+							@for (row of trafficMetrics; track row.label) {
+						<div class="trow">
+							<div class="tlabel">{{ row.label }}</div>
+							<div class="tvalue">{{ row.value | number }}</div>
+							<div class="tspark">
+								<svg viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
+									<path [attr.d]="buildLinePath(row.data, 120, 24)" [attr.stroke]="row.color" fill="none" stroke-width="2" opacity=".8"></path>
+								</svg>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+			<div class="col">
+				<div class="panel reveal">
+				<div class="panel-header"><h3><i class="bi bi-chat-left-quote me-2"></i>Reviews</h3></div>
+				<div class="reviews">
+					@for (r of reviews; track r.name + r.date) {
+						<div class="review">
+							<div class="avatar">{{ initials(r.name) }}</div>
+							<div class="rmeta">
+								<div class="rname">{{ r.name }}</div>
+								<div class="rtext">{{ r.text }}</div>
+							</div>
+							<div class="rdate">{{ r.date }}</div>
+							<div class="rstars">
+								@for (s of stars(r.rating); track $index) {
+									<span class="star" [class.on]="s===1">★</span>
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Balance + Stat Tiles -->
+	<div class="row three-cols">
+			<div class="col span-2">
+				<div class="panel reveal">
+		<div class="panel-header"><h3><i class="bi bi-wallet2 me-2"></i>Your balance</h3></div>
+				<div class="balance">
+						<div class="b-amount count currency" [attr.data-to]="balance.amount">$0</div>
+			<button class="btn-primary" type="button" (click)="onButtonRipple($event)"><i class="bi bi-lightning-charge-fill me-1"></i>Recharge Now</button>
+					<div class="b-note">{{ balance.note }}</div>
+					<div class="b-progress">
+						<div class="bar"><span [style.width.%]="balance.progress"></span></div>
+							<div class="b-small">${{ balance.amount | number: '1.2-2' }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+				<div class="tile reveal" [style.--c]="statTiles[0].color">
+				<div class="tile-left"></div>
+				<div class="tile-right">
+						<div class="tile-val count" [attr.data-to]="statTiles[0].value">0</div>
+					<div class="tile-lbl">{{ statTiles[0].label }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row three-cols">
+			<div class="col">
+				<div class="tile reveal" [style.--c]="statTiles[2].color">
+				<div class="tile-left"></div>
+				<div class="tile-right">
+						<div class="tile-val count currency" [attr.data-to]="statTiles[2].amount">$0</div>
+					<div class="tile-lbl">{{ statTiles[2].label }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+				<div class="tile reveal" [style.--c]="statTiles[3].color">
+				<div class="tile-left"></div>
+				<div class="tile-right">
+						<div class="tile-val count" [attr.data-to]="statTiles[3].value">0</div>
+					<div class="tile-lbl">{{ statTiles[3].label }}</div>
+				</div>
+			</div>
+		</div>
+	</div>

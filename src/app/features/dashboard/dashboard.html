@@ -14,28 +14,21 @@
     <div class="col-md-12 col-lg-6">
       <div class="card chart-card">
         <div class="card-body">
-          <canvas baseChart
-            [datasets]="visitorChartData"
-            [labels]="visitorChartLabels"
-            [options]="chartOptions"
-           
-            [legend]="true"
-            chartType="line">
-          </canvas>
+          <div class="chart-container">
+            <canvas baseChart [data]="visitorChartData" [type]="visitorChartType" [options]="chartOptions"></canvas>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Revenue & Purchase Charts -->
+    <!-- Revenue Chart -->
     <div class="col-md-6">
       <div class="card chart-card">
         <div class="card-body">
           <h5>Total Revenue</h5>
-          <canvas baseChart
-            [datasets]="revenueData"
-            [labels]="days"
-            chartType="bar">
-          </canvas>
+          <div class="chart-container">
+            <canvas baseChart [data]="revenueChartData" [type]="revenueChartType" [options]="chartOptions"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -44,11 +37,9 @@
       <div class="card chart-card">
         <div class="card-body">
           <h5>Net Purchase</h5>
-          <canvas baseChart
-            [datasets]="netPurchaseData"
-            [labels]="days"
-            chartType="line">
-          </canvas>
+          <div class="chart-container">
+            <canvas baseChart [data]="purchaseChartData" [type]="purchaseChartType" [options]="chartOptions"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -58,11 +49,9 @@
       <div class="card chart-card">
         <div class="card-body">
           <h5>Flow Chart</h5>
-          <canvas baseChart
-            [datasets]="flowChartData"
-            [labels]="months"
-            chartType="bar">
-          </canvas>
+          <div class="chart-container">
+            <canvas baseChart [data]="flowChartData" [type]="flowChartType" [options]="chartOptions"></canvas>
+          </div>
         </div>
       </div>
     </div>

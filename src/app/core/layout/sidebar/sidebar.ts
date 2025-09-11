@@ -4,8 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TabService } from '../../services/tab.service';
+import { BookingDashboard } from '../../../features/operations/booking-dashboard/booking-dashboard';
+import { AdminDashboard } from '../../../features/admin/admin-dashboard/admin-dashboard';
+import { AnalyticsDashboard } from '../../../features/analytics/analytics-dashboard/analytics-dashboard';
 
 import { ConsigneeList } from '../../../features/operations/master/pages/consignee/consignee.list/consignee.list';
+import { SettingsDashboard } from '../../../features/settings/settings-dashboard/settings-dashboard';
 
 
 interface SubItem {
@@ -50,10 +54,18 @@ export class Sidebar implements OnInit {
     {
       icon: 'bi bi-speedometer2',
       title: 'Admin',
+      
       sections: [
         {
-          name: 'Users & Rights',
+          name: 'Overview',
           expanded: true,
+          subItems: [
+            { name: 'Dashboard' }
+          ]
+        },
+        {
+          name: 'Users & Rights',
+          expanded: false,
           subItems: [
             { name: 'Traffic Overview' },
             { name: 'Revenue Reports' },
@@ -113,8 +125,15 @@ export class Sidebar implements OnInit {
       title: 'Operations',
       sections: [
         {
-          name: 'Masters',
+          name: 'Overview',
           expanded: true,
+          subItems: [
+            { name: 'Dashboard' }
+          ]
+        },
+        {
+          name: 'Masters',
+          expanded: false,
           subItems: [
             { name: 'Consignee', active: true, enabled: true },
             { name: 'Billing Party', enabled: false },
@@ -162,6 +181,13 @@ export class Sidebar implements OnInit {
       title: 'Analytics',
       sections: [
         {
+          name: 'Overview',
+          expanded: true,
+          subItems: [
+            { name: 'Dashboard' }
+          ]
+        },
+        {
           name: 'Performance',
           expanded: false,
           subItems: [
@@ -185,6 +211,13 @@ export class Sidebar implements OnInit {
       icon: 'bi bi-gear-fill',
       title: 'Settings',
       sections: [
+         {
+          name: 'Overview',
+          expanded: true,
+          subItems: [
+            { name: 'Dashboard' }
+          ]
+        },
         {
           name: 'General Settings',
           expanded: false,
@@ -242,7 +275,26 @@ export class Sidebar implements OnInit {
     subItem.active = true;
     // Open / activate tab (currently only Consignee implemented)
     if (subItem.name === 'Consignee') {
-      this.tabService.openOrActivate('Consignee', ConsigneeList, { icon: 'bi bi-person-lines-fill', singleton: true, stateFactory: () => ({}) });
+      this.tabService.replaceActive('Consignee', ConsigneeList, { icon: 'bi bi-person-lines-fill', stateFactory: () => ({}) });
+      return;
+    }
+    if (subItem.name === 'Dashboard') {
+      const currentPanel = this.sidebarPanels[this.selectedIndex];
+      switch (currentPanel.title) {
+        case 'Admin':
+          this.tabService.replaceActive('Admin Dashboard', AdminDashboard, { icon: 'bi bi-speedometer2' });
+          break;
+        case 'Operations':
+          this.tabService.replaceActive('Operations Dashboard', BookingDashboard, { icon: 'bi bi-speedometer2' });
+          break;
+        case 'Analytics':
+          this.tabService.replaceActive('Analytics Dashboard', AnalyticsDashboard, { icon: 'bi bi-speedometer2' });
+          break;
+        case 'Settings':
+          this.tabService.replaceActive('Settings Overview', SettingsDashboard, { icon: 'bi bi-speedometer2' });
+          break;
+      }
+      return;
     }
     // Future: map other names to their components here.
   }

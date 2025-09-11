@@ -40,6 +40,40 @@ export class TabService {
     });
   }
 
+  // Replace the currently active tab's component instead of adding a new tab.
+  // If no active tab exists, falls back to opening a new one.
+  replaceActive(title: string, component: Type<any>, opts?: { icon?: string; stateFactory?: () => any; }): void {
+    this.tabsSignal.update(list => {
+      const idx = list.findIndex(t => t.active);
+      if (idx === -1) {
+        // No active tab: open new
+        const id = crypto.randomUUID();
+        const tab: TabDescriptor = {
+          id,
+          title,
+          component,
+          icon: opts?.icon,
+          closable: true,
+          active: true,
+          state: opts?.stateFactory ? opts.stateFactory() : {}
+        };
+        return list.map(t => ({ ...t, active: false })).concat(tab);
+      }
+      // Replace in place, keep same id and position
+      const current = list[idx];
+      const replaced: TabDescriptor = {
+        ...current,
+        title,
+        component,
+        icon: opts?.icon ?? current.icon,
+        state: opts?.stateFactory ? opts.stateFactory() : {}
+      };
+      const newList = [...list];
+      newList[idx] = replaced;
+      return newList;
+    });
+  }
+
   activate(id: string): void {
     this.tabsSignal.update(list => list.map(t => ({ ...t, active: t.id === id })));
   }

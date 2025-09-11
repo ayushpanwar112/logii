@@ -2,6 +2,7 @@ import { Component, effect, ViewChild, ViewContainerRef, inject } from '@angular
 import { CommonModule } from '@angular/common';
 import { TabService, TabDescriptor } from '../../services/tab.service';
 import { NewTabPlaceholder } from './new-tab';
+import { Dashboard } from '../../../features/dashboard/dashboard';
 
 @Component({
   selector: 'app-tab-bar',
@@ -18,23 +19,23 @@ export class TabBar {
   @ViewChild('tabHost', { read: ViewContainerRef, static: true }) tabHost!: ViewContainerRef;
 
   constructor() {
+    // Open Dashboard tab by default if no tabs exist
+    if (!this.tabService.tabs().length) {
+      this.tabService.openOrActivate('Dashboard', Dashboard, { icon: 'bi bi-speedometer2', singleton: true });
+    }
     // React to tab list changes and ensure active component is visible while preserving others.
     effect(() => {
       const tabs = this.tabs();
-      // Strategy: ensure one embedded view per tab, reuse existing if present.
-      // We'll tag each view with a tab id in its context.
       tabs.forEach(tab => this.ensureView(tab));
-      // Remove views whose tab disappeared.
       for (let i = this.tabHost.length - 1; i >= 0; i--) {
         const viewRef: any = this.tabHost.get(i);
         if (viewRef?.rootNodes?.length) {
-          const marker = (viewRef as any)._logiiTabId; // custom property
+          const marker = (viewRef as any)._logiiTabId;
           if (!tabs.find(t => t.id === marker)) {
             this.tabHost.remove(i);
           }
         }
       }
-      // Show/hide via CSS class instead of destroying.
       this.updateVisibility();
     });
   }
@@ -44,11 +45,22 @@ export class TabBar {
     for (let i = 0; i < this.tabHost.length; i++) {
       const viewRef: any = this.tabHost.get(i);
       if (viewRef && viewRef._logiiTabId === tab.id) {
-        return; // already exists
+        // If the component type changed (replaceActive), recreate the view in place
+        if (viewRef._logiiTabCmp !== tab.component) {
+          this.tabHost.remove(i);
+          const compRef = this.tabHost.createComponent(tab.component);
+          (compRef.hostView as any)._logiiTabId = tab.id;
+          (compRef.hostView as any)._logiiTabCmp = tab.component;
+          if ('tabState' in compRef.instance) {
+            (compRef.instance as any).tabState = tab.state;
+          }
+        }
+        return; // already exists (and up-to-date)
       }
     }
     const compRef = this.tabHost.createComponent(tab.component);
     (compRef.hostView as any)._logiiTabId = tab.id;
+    (compRef.hostView as any)._logiiTabCmp = tab.component;
     // pass state object if component has an 'tabState' input property (optional pattern)
     if ('tabState' in compRef.instance) {
       (compRef.instance as any).tabState = tab.state;

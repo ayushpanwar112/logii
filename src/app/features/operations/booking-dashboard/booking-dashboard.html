@@ -1,0 +1,135 @@
+<div class="form-container">
+  <div class="container-fluid challan-wrapper">
+    <header class="list-toolbar mb-1">
+      <div class="toolbar-left">
+        <!-- Filter -->
+        <div class="field-group">
+          <label for="categoryFilter" class="field-label d-none d-xl-inline">Filter</label>
+          <select id="categoryFilter" name="categoryFilter" class="form-select form-select-sm category-filter" aria-label="Select filter column">
+            <option value="all">All</option>
+            <option value="regdMobileNo">Regd. Mobile No</option>
+            <option value="gstin">GSTIN</option>
+            <option value="name">Name</option>
+            <option value="code">Code</option>
+            <option value="city">City</option>
+            <option value="pin">Pin</option>
+            <option value="state">State</option>
+            <option value="country">Country</option>
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div class="search-group">
+           <input type="text" class="form-control form-control-sm search-input" placeholder="Search..."  aria-label="Search text"  />
+         <button class="icon-btn search" aria-label="Run search" ><i class="bi bi-search"></i></button>
+        <button class="icon-btn reset" aria-label="Reset search" title="Reset"><i class="bi bi-arrow-counterclockwise"></i></button>
+          <!--  <button class="icon-btn filter" aria-label="Open advanced filter" title="Advanced Filter" ><i class="bi bi-funnel"></i></button>  -->
+        </div>
+      </div>
+
+      <div class="toolbar-right">
+        <button class="btn-create primary" aria-label="Create Consignee">
+          <i class="bi bi-plus-lg"></i>
+          <span class="label d-none d-sm-inline">Create</span>
+          <span class="shortcut d-none d-md-inline">F1</span>
+        </button> 
+      </div>
+    </header>
+
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-bordered challan-table">
+          <thead>
+            <tr>
+            <th class="text-left">Trip No.</th> 
+              <th class="text-left">Date</th> 
+              <th class="text-left">vehicle</th> 
+               <th>source</th> 
+             <th>Destination</th> 
+              <th>ETA</th> 
+              <th class="text-right">Arrival Date</th> 
+              <th>Delay/Early(-)</th> 
+               <th>payment</th> 
+              
+              <th class="text-center">Action</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let b of bookings">
+              <td class="text-left">{{ b.tripNo }}</td>
+              <td class="text-left">{{ b.date | date:'yyyy-MM-dd' }}</td>
+              <td class="text-left">{{ b.vehicle }}</td>
+              <td>{{ b.source }}</td>
+              <td>{{ b.destination }}</td>
+              <td>{{ b.eta | date:'shortTime' }}</td>
+              <td class="text-right">{{ b.arrivalDate | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td>
+                <span [ngClass]="{ 'text-danger': b.delayMins > 0, 'text-success': b.delayMins < 0 }">
+                  {{ b.delayMins }} min
+                </span>
+              </td>
+              <td>{{ b.payment | currency:'INR':'symbol-narrow' }}</td>
+              <td class="text-center position-relative">
+                <button class="btn btn-sm btn-light border" title="More actions" (click)="toggleMenu(b, $event)">
+                  <i class="bi bi-gear"></i>
+                </button>
+                <div class="row-actions" *ngIf="menuOpenFor === b.tripNo">
+                <button class="dropdown-item" (click)="view(b)">
+  <i class="bi bi-cash-coin me-1"></i> Advance
+</button>
+
+<button class="dropdown-item" (click)="edit(b)">
+  <i class="bi bi-fuel-pump me-1"></i> Fuel
+</button>
+
+<button class="dropdown-item" (click)="edit(b)">
+  <i class="bi bi-truck-front me-1"></i> Arrival
+</button>
+
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer" role="contentinfo">
+      <div class="footer-container">
+        <!-- Left: Rows per page -->
+        <div class="footer-left">
+          <label for="pageSize" class="d-none d-sm-inline">Rows per page:</label>
+          <select id="pageSize" class="form-control form-control-sm">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="30">30</option>
+          </select>
+        </div>
+        
+        <!-- Center: Page info -->
+        <div class="footer-center d-none d-md-flex">
+          Page <strong>1</strong> of <strong>25</strong>
+        </div>
+        
+        <!-- Right: Pagination -->
+        <div class="footer-right">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span class="d-none d-sm-inline">&laquo; Prev</span>
+                <span class="d-inline d-sm-none">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span class="d-none d-sm-inline">Next &raquo;</span>
+                <span class="d-inline d-sm-none">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</div>
